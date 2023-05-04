@@ -1,0 +1,15 @@
+.btn-login{
+    outline: none;
+    padding: 0.3rem;
+    border: none;
+    border-bottom: 4px solid #fff;
+    display: inline-block;
+    width: 50%;
+    font-weight: bold;
+    background: none;
+    transition: color,border-bottom-color 0.3s ease-in-out;
+}
+.activo-login{
+    color: var(--color-principal);
+    border-bottom-color: var(--color-principal);
+}

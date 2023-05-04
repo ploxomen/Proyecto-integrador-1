@@ -1,0 +1,107 @@
+.modulos{
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  top: 0;
+  width: 300px;
+  height: 100vh;
+  padding: 4rem 1.5rem;
+  transition: left 0.3s ease-in-out;
+  background-color: var(--color-principal);
+}
+.modulos img{
+  display: block;
+  width: 100px;
+  height: 100px;
+  margin: auto;
+  object-fit: contain;
+  padding: 5px;
+  border-radius: 50%;
+  border: 3px solid #fff;
+}
+.modulos .img-admin{
+  text-align: center;
+  font-size: 14px;
+  font-weight: bold;
+  display: block;
+  padding: 5px 0;
+  color: #fff;
+}
+.modulos .lista-modulos{
+  list-style: none;
+  padding: 30px 0;
+  overflow-y: auto;
+}
+.modulos .lista-modulos li{
+  padding: 10px 30px;
+  border-radius: 10px;
+}
+.modulos .lista-modulos .activo{
+  background-color: #fff;
+}
+.modulos .lista-modulos .activo a{
+  color: var(--bs-secondary);
+}
+.modulos .lista-modulos li a{
+  color: #fff;
+  text-decoration: none;
+  font-weight:500;
+  display: block;
+}
+.modulos .lista-modulos li a span{
+  padding-left: 5px;
+}
+.cabecera{
+  position: fixed;
+  top: 0;
+  left: 300px;
+  right: 0;
+  padding: 10px 20px;
+  transition: lef 0.3s ease-in-out;
+}
+.cabecera nav{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.cabecera nav .menu{
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  align-items: center;
+}
+.cabecera .imagen-logo{
+  width: 130px;
+  display: block;
+}
+.cabecera .nombre-usuario {
+  font-size: 12px;
+  font-weight: 500;
+}
+.cabecera .imagen-icono{
+  width: 25px;
+}
+.contenido-pagina{
+  width: calc(100% - 300px);
+  margin-left: 300px;
+  margin-top: 60px;
+  height: calc(100vh - 60px);
+  background-color: rgba(243, 243, 243, 0.407);
+  padding: 2rem;
+  transition: width,margin-left 0.3s ease-in-out;
+}
+.titulo-principal-modulo{
+  font-weight: bold;
+  color: var(--color-principal);
+}
+.sb-sidenav-toggled~.contenido-pagina{
+  width: 100% !important;
+  margin-left: 0 !important;
+}
+.sb-sidenav-toggled~.modulos{
+  left: -300px !important;
+}
+.sb-sidenav-toggled{
+  left: 0 !important;
+}

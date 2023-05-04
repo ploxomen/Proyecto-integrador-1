@@ -1,0 +1,51 @@
+*{
+    --color-principal: #F8B602;
+    --color-footer:#6D747D;
+}
+body{
+    font-family: 'Montserrat', sans-serif !important;
+}
+.navegacion{
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 20px;
+    align-items: center;
+}
+.navegacion .logo img{
+    width: 150px;
+    display: block;
+}
+.navegacion .indices-navegacion{
+    display: flex;
+    list-style: none;
+    gap: 0 20px;
+    align-items: center;
+    margin-bottom: 0;
+}
+.navegacion .indices-navegacion .activo a{
+    color: var(--color-principal);
+}
+.navegacion .indices-navegacion .activo-btn a{
+    color: #ffff !important;
+    background-color: var(--color-principal);
+}
+.navegacion .indices-navegacion a{
+    text-decoration: none;
+    font-weight: bold;
+    color: var(--bs-secondary);
+}
+footer{
+    background-color: var(--color-footer);
+}
+footer .lista-redes{
+    display: flex;
+    gap: 20px 30px;
+    color: #fff;
+    font-size: 2rem;
+    justify-content: center;
+}
+form > div:has(input:required,select:required) label::after{
+    content: " *";
+    font-weight: bold;
+    color: red !important;
+}
