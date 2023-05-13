@@ -69,7 +69,24 @@ function loadPage() {
             }
         ]
     }
-    console.log(configTablaProductos);
     $('#misProductos').DataTable(configTablaProductos);
+    const tablaMisProductos = document.querySelector("#misProductos");
+    const modalEditarProdcuto = document.querySelector("#editarProductoModal");
+    const modalProducto = new bootstrap.Modal(modalEditarProdcuto);
+    tablaMisProductos.querySelector("tbody").addEventListener("click",function(event){
+        if(event.target.classList.contains("btn-outline-info")){
+            modalProducto.show();
+        }
+    });
+    $('#cbCategorias').select2({
+        theme: 'bootstrap',
+        width: '100%',
+        placeholder: 'Seleccione las categorías'
+    });
+    $('#cbMarca').select2({
+        theme: 'bootstrap',
+        width: '100%',
+        placeholder: 'Seleccione una marca'
+    });
 }
 window.addEventListener("DOMContentLoaded",loadPage);
