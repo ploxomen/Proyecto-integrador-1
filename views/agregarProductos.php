@@ -5,7 +5,7 @@
     <?php include("helpers/header.php") ?>
     <?php include("helpers/headerDashboard.php") ?>
     <link rel="stylesheet" href="./../public/css/agregarProducto.css">
-    <script src="./../public/js/agregarProducto.js"></script>
+    <script src="./../Public/js/agregarProducto.js"></script>
     <title>Agregar productos</title>
 </head>
 
@@ -38,33 +38,32 @@
                             </div> -->
                             <div class="mb-2 col-12">
                                 <label for="nombreProducto" class="form-label">Producto</label>
-                                <input type="text" class="form-control form-control-sm" id="nombreProducto" required>
+                                <input type="text" name="nombre" class="form-control form-control-sm" id="nombreProducto" required>
                             </div>
                             <div class="mb-2 col-12">
                                 <label for="descripcionProducto" class="form-label">Descripción</label>
-                                <textarea name="" class="form-control form-control-sm" id="descripcionProducto" rows="3"></textarea>
+                                <textarea name="descripcion" class="form-control form-control-sm" id="descripcionProducto" rows="3"></textarea>
                             </div>
                             <div class="mb-2 col-12 col-md-6 col-lg-8">
                                 <label for="cbCategorias" class="form-label">Categorías</label>
-                                <select name="" id="cbCategorias" multiple required>
+                                <select name="categoria[]" id="cbCategorias" multiple required>
                                     <option value=""></option>
-                                    <option value="Aseo personal">Aseo personal</option>
-                                    <option value="Limpieza">Limpieza</option>
-                                    <option value="Abarrotes">Abarrotes</option>
-                                    <option value="Bebidas">Bebidas</option>
-                                    <option value="Carnes y embutidos">Carnes y embutidos</option>
-                                    <option value="Lacteos">Lacteos</option>
-                                    <option value="Golosinas">Golosinas</option>
+                                    <?php
+                                    foreach ($listaCategorias as $categoria) {
+                                        echo "<option value='" . $categoria['id'] . "'>" . $categoria['nombreCategoria'] . '</option>';
+                                    }
+                                    ?>
                                 </select>
                             </div>
                             <div class="mb-2 col-12 col-md-6 col-lg-4">
                                 <label for="cbMarca" class="form-label">Marca</label>
-                                <select name="" class="form-select form-select-sm" id="cbMarca" required>
+                                <select name="marca" class="form-select form-select-sm" id="cbMarca" required>
                                     <option value=""></option>
-                                    <option value="Coca Cola">Coca Cola</option>
-                                    <option value="Coca Cola">Gloria</option>
-                                    <option value="Nestle">Nestle</option>
-                                    <option value="Sapolio">Sapolio</option>
+                                    <?php
+                                    foreach ($listaMarcas as $marca) {
+                                        echo "<option value='" . $marca['id'] . "'>" . $marca['nombreMarca'] . '</option>';
+                                    }
+                                    ?>
                                 </select>
                             </div>
                             <input type="submit" id="formFrimero" hidden>
@@ -75,29 +74,26 @@
                     </div>
                     <div class="formulario" id="boxFormularioOcul2" hidden>
                         <div style="min-height: 258px;">
-                            <form action="" class="row mb-5">
-                                <!-- <div class="col-12 text-center">
-                                    <h4 class="titulo-principal my-4">Precio y Stock</h4>
-                                </div> -->
+                            <form id="segundoFormulario" class="row mb-5">
                                 <div class="mb-2 col-12 col-md-6 col-lg-4">
                                     <label for="txtPrecioCompra" class="form-label">Precio compra (S/)</label>
-                                    <input type="number" step="0.01" class="form-control form-control-sm" id="txtPrecioCompra" required>
+                                    <input type="number" name="precioCompra" step="0.01" class="form-control form-control-sm" id="txtPrecioCompra" required>
                                 </div>
                                 <div class="mb-2 col-12 col-md-6 col-lg-4">
                                     <label for="txtPrecioVenta" class="form-label">Precio venta (S/)</label>
-                                    <input type="number" step="0.01" class="form-control form-control-sm" id="txtPrecioVenta" required>
+                                    <input type="number" name="precioVenta" step="0.01" class="form-control form-control-sm" id="txtPrecioVenta" required>
                                 </div>
                                 <div class="mb-2 col-12 col-md-6 col-lg-4">
                                     <label for="txtPrecioVenta" class="form-label">Descuento (S/)</label>
-                                    <input type="number" step="0.01" class="form-control form-control-sm" id="txtPrecioVenta">
+                                    <input type="number" name="descuento" step="0.01" class="form-control form-control-sm" id="txtPrecioVenta">
                                 </div>
                                 <div class="mb-2 col-12 col-md-6">
                                     <label for="txtStockMinimo" class="form-label">Stock mínimo</label>
-                                    <input type="number" step="0.01" value="0" class="form-control form-control-sm" id="txtStockMinimo">
+                                    <input type="number" name="stockMinimo" step="0.01" value="0" class="form-control form-control-sm" id="txtStockMinimo">
                                 </div>
                                 <div class="mb-2 col-12 col-md-6">
                                     <label for="txtStock" class="form-label">Stock</label>
-                                    <input type="number" step="0.01" class="form-control form-control-sm" id="txtStock" required>
+                                    <input type="number" name="stock" step="0.01" class="form-control form-control-sm" id="txtStock" required>
                                 </div>
                                 <input type="submit" id="formSegudo" hidden>
                             </form>
@@ -110,7 +106,7 @@
                     </div>
                     <div class="formulario" id="boxFormularioOcul3" hidden>
                         <div style="min-height: 258px;">
-                            <form action="" class="row mb-5">
+                            <form id="tercerFormulario" class="row mb-5" enctype="multipart/form-data">
                                 <!-- <div class="col-12 text-center">
                                     <h4 class="titulo-principal my-4">Imagen</h4>
                                 </div> -->
@@ -120,7 +116,7 @@
                                 <img src="" alt="imagen previa" style="object-fit: contain;" width="120px" id="imagenPrevia" height="120px" hidden>
                                 <div class="mb-2">
                                     <label for="formFile" class="form-label">Subir imagen</label>
-                                    <input class="form-control" type="file" id="formFile" accept="image/*" required>
+                                    <input class="form-control" name="img" type="file" id="formFile" accept="image/*" required>
                                 </div>
                                 <input type="submit" id="formTercero" hidden>
                             </form>

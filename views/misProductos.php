@@ -4,6 +4,8 @@
 <head>
     <?php include("helpers/header.php") ?>
     <?php include("helpers/headerDashboard.php") ?>
+    <?php include("helpers/headerDatatable.php") ?>
+    <script src="./../Public/js/misProductos.js"></script>
     <title>Mis productos</title>
 </head>
 
@@ -16,7 +18,7 @@
                 <h4 class="titulo-principal-modulo"><i class="fa-solid fa-caret-right"></i> Lista de productos</h4>
             </div>
             <div class="table-responsive">
-                <table class="table table-sm table-bordered">
+                <table class="table table-sm table-bordered" id="misProductos">
                     <thead class="text-center">
                         <tr>
                             <th>N°</th>
@@ -32,7 +34,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
+                        <!-- <tr>
                             <td>1</td>
                             <td>Leche Gloria Azul</td>
                             <td>Lata de 100ml grande</td>
@@ -54,26 +56,9 @@
                                 </div>
 
                             </td>
-                        </tr>
+                        </tr> -->
                     </tbody>
                 </table>
-            </div>
-            <div aria-label="Paginacion categorias" class="d-flex justify-content-end">
-                <ul class="pagination">
-                    <li class="page-item">
-                        <a class="page-link" href="#" aria-label="Previous">
-                            <span aria-hidden="true">&laquo;</span>
-                        </a>
-                    </li>
-                    <li class="page-item active"><a class="page-link" href="#">1</a></li>
-                    <li class="page-item"><a class="page-link" href="#">2</a></li>
-                    <li class="page-item"><a class="page-link" href="#">3</a></li>
-                    <li class="page-item">
-                        <a class="page-link" href="#" aria-label="Next">
-                            <span aria-hidden="true">&raquo;</span>
-                        </a>
-                    </li>
-                </ul>
             </div>
         </div>
     </main>

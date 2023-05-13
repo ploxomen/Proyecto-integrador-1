@@ -79,8 +79,29 @@ function loadPage() {
         if (fileProducto.value == "" || !fileProducto.files.length){
             return alert("Por favor carge una imagen del producto");
         }
-        alert("Producto registrado correctamente");
-        eliminarTodo();
+        let formData = new FormData(formularios[0]);
+        let formDataDos = new FormData(formularios[1]);
+        let formDataTres = new FormData(formularios[2]);
+        for (let pair of formDataDos.entries()) {
+            formData.append(pair[0], pair[1]);
+        }
+        for (let pair of formDataTres.entries()) {
+            formData.append(pair[0], pair[1]);
+        }
+        formData.append('accion','agregar-producto');
+        fetch("./../Http/Bodega/productos.php",{
+            method: "POST",
+            body : formData
+        }).then(response => JSON.parse())
+        .then(data => {
+            if(data.success){
+                alert("Producto registrado correctamente");
+                eliminarTodo();
+            }
+        }).catch(error => {
+            console.error(error);
+            alert("Error al registrar un producto");
+        });
     });
     fileProducto.onchange = function(e){
         if(e.target.files.length){

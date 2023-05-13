@@ -9,7 +9,7 @@
         <div>
             <ul class="indices-navegacion">
                 <li class="<?php echo $_SERVER['REQUEST_URI'] == '/proyecto_integrador/views/principal.php' ? 'activo' : '' ?>">
-                    <a href="./principal.php">
+                    <a href="/">
                         <i class="fa-solid fa-house"></i> Inicio
                     </a>
                 </li>
@@ -20,7 +20,7 @@
                 <li> <a href=""><i class="fa-solid fa-box-open"></i> Productos</a>
                 </li>
                 <li class="<?php echo $_SERVER['REQUEST_URI'] == '/proyecto_integrador/views/login.php' ? 'activo-btn' : '' ?>">
-                    <a href="./login.php" class="btn btn-sm btn-light text-secondary">
+                    <a href="login" class="btn btn-sm btn-light text-secondary">
                         <i class="fa-solid fa-user"></i>
                     </a>
                 </li>

@@ -16,7 +16,7 @@
             <div class="container py-5">
                 <div class="row d-flex justify-content-center align-items-center">
                     <div class="col col-xl-10">
-                        <div class="card text-secondary" style="border-radius: 1rem; box-shadow: 2px 2px 10px #F8B602; border:none;">
+                        <div class="text-secondary">
                             <div class="row g-0">
                                 <div class="col-md-6 col-lg-5 d-flex justify-content-center align-items-center">
                                     <div class="contenido text-center">
