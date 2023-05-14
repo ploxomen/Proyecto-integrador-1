@@ -19,6 +19,10 @@ class Producto {
     }
     public function indexAdminMisProductos()
     {
+        $marcaModel = new MarcaModel();
+        $categoriaModel = new CategoriaModel();
+        $listaMarcas = $marcaModel->mostrar();
+        $listaCategorias = $categoriaModel->mostrar();
         require_once("views/misProductos.php");
     }
     public function mostrarProductos()

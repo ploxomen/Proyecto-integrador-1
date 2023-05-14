@@ -6,6 +6,7 @@
     <?php include("helpers/headerDashboard.php") ?>
     <?php include("helpers/headerDatatable.php") ?>
     <script src="./../Public/js/misProductos.js"></script>
+    <link rel="stylesheet" href="./../public/css/agregarProducto.css">
     <title>Mis productos</title>
 </head>
 
@@ -33,35 +34,12 @@
                             <th>Acciones</th>
                         </tr>
                     </thead>
-                    <tbody>
-                        <!-- <tr>
-                            <td>1</td>
-                            <td>Leche Gloria Azul</td>
-                            <td>Lata de 100ml grande</td>
-                            <td><span class="badge text-bg-primary">Lacteos</span>
-                            </td>
-                            <td>Gloria</td>
-                            <td>S/ 3.50</td>
-                            <td>S/ 4.20</td>
-                            <td>2</td>
-                            <td>10</td>
-                            <td>
-                                <div class="d-flex" style="gap:10px">
-                                    <button class="btn btn-sm btn-outline-primary">
-                                        <i class="fa-solid fa-pen"></i>
-                                    </button>
-                                    <button class="btn btn-sm btn-outline-danger">
-                                        <i class="fa-solid fa-trash"></i>
-                                    </button>
-                                </div>
-
-                            </td>
-                        </tr> -->
-                    </tbody>
+                    <tbody></tbody>
                 </table>
             </div>
         </div>
     </main>
+    <?php include_once 'modales/editarProducto.php'; ?>
 </body>
 
 </html>

@@ -20,6 +20,10 @@
   border-radius: 50%;
   border: 3px solid #fff;
 }
+button > *{
+  user-select: none;
+  pointer-events: none;
+}
 .modulos .img-admin{
   text-align: center;
   font-size: 14px;
