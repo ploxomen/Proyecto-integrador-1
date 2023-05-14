@@ -6,7 +6,7 @@
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-        <form action="" class="row">
+        <form action="" class="row formularios">
             <div class="mb-2 col-12">
                 <label for="nombreProducto" class="form-label">Producto</label>
                 <input type="text" name="nombre" class="form-control form-control-sm" id="nombreProducto" required>

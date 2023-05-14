@@ -1,7 +1,5 @@
 <?php
-
 use Controllers\Bodega\Producto;
-
 require_once '../../Controllers/Bodega/Producto.php';
 $cProducto = new Producto;
 switch ($_POST['accion']) {

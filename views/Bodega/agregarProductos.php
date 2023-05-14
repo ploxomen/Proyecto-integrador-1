@@ -2,15 +2,15 @@
 <html lang="es">
 
 <head>
-    <?php include("helpers/header.php") ?>
-    <?php include("helpers/headerDashboard.php") ?>
-    <link rel="stylesheet" href="./../public/css/agregarProducto.css">
-    <script src="./../Public/js/agregarProducto.js"></script>
+    <?php require_once($_SERVER['DOCUMENT_ROOT'] . "/Views/helpers/headerDashboard.php"); ?>
+    <?php require_once($_SERVER['DOCUMENT_ROOT'] . "/Views/helpers/headerDatatable.php"); ?>
+    <script src="./../../Public/js/agregarProducto.js"></script>
+    <link rel="stylesheet" href="./../../public/css/agregarProducto.css">
     <title>Agregar productos</title>
 </head>
 
 <body>
-    <?php include("helpers/dashboardBodega.php") ?>
+    <?php require_once($_SERVER['DOCUMENT_ROOT'] . "/Views/helpers/dashboardBodega.php") ?>
     <main class="contenido-pagina">
         <div class="container">
             <div class="p-4 bg-white m-auto rounded" style="max-width: 700px;">

@@ -2,13 +2,13 @@
 <html lang="es">
 
 <head>
-    <?php include("helpers/header.php") ?>
-    <?php include("helpers/headerDashboard.php") ?>
+    <?php require_once($_SERVER['DOCUMENT_ROOT'] . "/Views/helpers/headerDashboard.php"); ?>
+    <?php require_once($_SERVER['DOCUMENT_ROOT'] . "/Views/helpers/headerDatatable.php"); ?>
     <title>Marcas de productos</title>
 </head>
 
 <body>
-    <?php include("helpers/dashboard.php") ?>
+    <?php require_once($_SERVER['DOCUMENT_ROOT'] . "/Views/helpers/dashboard.php") ?>
     <main class="contenido-pagina">
         <h3 class="text-center titulo-principal-modulo mb-4">Marcas de productos</h3>
         <div class="bg-white p-3 mb-5">

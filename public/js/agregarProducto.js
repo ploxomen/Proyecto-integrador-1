@@ -1,4 +1,5 @@
-function loadPage() {  
+function loadPage() {
+    let helper = new Helper();
     $('#cbCategorias').select2({
         theme: 'bootstrap',
         width: '100%',
@@ -89,10 +90,10 @@ function loadPage() {
             formData.append(pair[0], pair[1]);
         }
         formData.append('accion','agregar-producto');
-        fetch("./../Http/Bodega/productos.php",{
+        fetch(helper.urlProductos,{
             method: "POST",
             body : formData
-        }).then(response => JSON.parse())
+        }).then(response => response.json())
         .then(data => {
             if(data.success){
                 alert("Producto registrado correctamente");

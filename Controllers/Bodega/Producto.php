@@ -15,7 +15,7 @@ class Producto {
         $categoriaModel = new CategoriaModel();
         $listaMarcas = $marcaModel->mostrar();
         $listaCategorias = $categoriaModel->mostrar();
-        require_once("views/agregarProductos.php");
+        require_once("views/Bodega/agregarProductos.php");
     }
     public function indexAdminMisProductos()
     {
@@ -23,7 +23,7 @@ class Producto {
         $categoriaModel = new CategoriaModel();
         $listaMarcas = $marcaModel->mostrar();
         $listaCategorias = $categoriaModel->mostrar();
-        require_once("views/misProductos.php");
+        require_once("views/Bodega/misProductos.php");
     }
     public function mostrarProductos()
     {

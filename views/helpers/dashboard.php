@@ -8,7 +8,7 @@
               </div>
               <div>
                   <a href="./principal.php">
-                      <img src="./../public/img/logo.png" class="imagen-logo" alt="Logo BodegaFast">
+                      <img src="<?php echo URL . '/Public/img/logo.png' ?>" class="imagen-logo" alt="Logo BodegaFast">
                   </a>
               </div>
           </div>
@@ -18,7 +18,7 @@
           <div class="informacion">
               <div class="dropdown">
                   <button class="btn btn-sm btn-light dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                      <img src="./../public/img/avatarAdmin.png" class="imagen-icono" alt="Avatar admin">
+                      <img src="<?php echo URL . '/Public/img/avatarAdmin.png' ?>" class="imagen-icono" alt="Avatar admin">
                       <span class="nombre-usuario">Juan Perez</span>
                   </button>
                   <ul class="dropdown-menu">
@@ -32,7 +32,7 @@
   <div class="modulos">
       <div class="img-admin">
           <div class="py-3">
-              <img src="./../public/img/avatarAdmin.png" alt="Avatar admin">
+              <img src="<?php echo URL . '/Public/img/avatarAdmin.png' ?>" alt="Avatar admin">
           </div>
           <span>Juan Perez Mendoza</span>
           <span>Administrador</span>
@@ -44,20 +44,20 @@
                   <span>Inicio</span>
               </a>
           </li>
-          <li class="<?php echo $_SERVER['REQUEST_URI'] == '/proyecto_integrador/views/bodega.php' ? 'activo' : '' ?>">
-              <a href="./bodega.php">
+          <li class="<?php echo $_SERVER['REQUEST_URI'] == '/intranet/administrador/bodegas' ? 'activo' : '' ?>">
+              <a href="/intranet/administrador/bodegas">
                   <i class="fa-solid fa-shop"></i>
                   <span>Bodegas</span>
               </a>
           </li>
-          <li class="<?php echo $_SERVER['REQUEST_URI'] == '/proyecto_integrador/views/categorias.php' ? 'activo' : '' ?>">
-              <a href="./categorias.php">
+          <li class="<?php echo $_SERVER['REQUEST_URI'] == '/intranet/administrador/categorias' ? 'activo' : '' ?>">
+              <a href="/intranet/administrador/categorias">
                   <i class="fa-solid fa-tags"></i>
                   <span>Categoría</span>
               </a>
           </li>
-          <li class="<?php echo $_SERVER['REQUEST_URI'] == '/proyecto_integrador/views/marcas.php' ? 'activo' : '' ?>">
-              <a href="./marcas.php">
+          <li class="<?php echo $_SERVER['REQUEST_URI'] == '/intranet/administrador/marcas' ? 'activo' : '' ?>">
+              <a href="/intranet/administrador/marcas">
                   <i class="fa-solid fa-certificate"></i>
                   <span>Marcas</span>
               </a>

@@ -2,7 +2,6 @@
 class Router{
     private $_uri = [];
     private $_accion = [];
-
     public function add(string $uri,$accion = null)
     {
         $this->_uri[] = '/' . trim($uri,"/");
@@ -20,7 +19,6 @@ class Router{
             }
         }
     }
-
     private function runAction($accion)
     {
         if($accion instanceof \Closure){

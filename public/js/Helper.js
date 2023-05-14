@@ -1,5 +1,5 @@
 class Helper{
-    urlProductos = "./../Http/Bodega/productos.php"
+    urlProductos = window.location.origin + "/Http/Bodega/productos.php"
     cargandoPeticion($boton,claseIcono,deshabilitar){
         const btn = $boton.querySelector("i");
         if(deshabilitar){
