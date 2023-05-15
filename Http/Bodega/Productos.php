@@ -11,6 +11,10 @@ switch ($_POST['accion']) {
         $response = $cProducto->mostrarProductos();
         echo json_encode($response);
     break;
+    case 'eliminar-producto':
+        $response = $cProducto->eliminarProducto($_POST['idProducto']);
+        echo json_encode($response);
+    break;
 }
 
 ?>

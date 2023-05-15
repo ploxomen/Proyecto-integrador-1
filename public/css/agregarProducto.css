@@ -4,7 +4,7 @@
 }
 .formularios .imagen-previa{
     border: 2px dashed;
-    border-color: rgb(120, 67, 255);
+    border-color: var(--color-principal);
     width: 120px;
     height: 120px;
     margin: auto;
@@ -23,7 +23,7 @@
 .pasos .paso{
     width: 50px;
     height: 50px;
-    border: 2px solid rgb(255, 110, 110);
+    border: 2px solid var(--color-principal);
     font-weight: bold;
     border-radius: 50%;
     display: grid;
@@ -33,7 +33,7 @@
 
 }
 .pasos .regla{
-    background: rgb(255, 110, 110);
+    background: var(--color-principal);
     transition: width 0.3s ease-in-out;
     height: 5px;
     position: absolute;

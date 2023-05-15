@@ -39,6 +39,20 @@ class Producto extends Conexion{
         $stmt->close();
         return $result;
     }
+    public function eliminar()
+    {
+        $cn = $this->conectar();
+        $stmt = $cn->prepare("CALL SP_D_T_PRODUCTOS(?,?)");
+        $stmt->bind_param("ii",$this->id,$this->idBodega);
+        $stmt->execute();
+        $response = $stmt->error == '' ? ['success' => 'Producto eliminado correctamente'] : ['error' => 'El producto no se eliminó'];
+        $stmt->close();
+        return $response;
+    }
+    public function setId(int $idProducto)
+    {
+        $this->id = $idProducto;
+    }
     public function setIdCategoriasJson(string $idCategorias)
     {
         $this->idCategorias = $idCategorias;

@@ -15,6 +15,13 @@ body{
     width: 150px;
     display: block;
 }
+.boton-sweet-aler-confirmar{
+    padding: 0.5rem;
+    text-align: center;
+    background: var(--color-principal);
+    color: #fff;
+    
+}
 .navegacion .indices-navegacion{
     display: flex;
     list-style: none;

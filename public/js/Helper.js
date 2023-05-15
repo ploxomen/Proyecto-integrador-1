@@ -1,5 +1,47 @@
 class Helper{
     urlProductos = window.location.origin + "/Http/Bodega/productos.php"
+    urlBodegas = window.location.origin + "/Http/Administrador/Bodega.php"
+    peticionHttp(url,metodo,datos){
+        return fetch(url,{
+            method: metodo,
+            body : datos
+        }).then(response => response.json());
+    }
+    alertaToastSweet = Swal.mixin({
+        toast: true,
+        position: 'bottom-end',
+        showConfirmButton: false,
+        timer: 3000,
+        timerProgressBar: true,
+        didOpen: (toast) => {
+            toast.addEventListener('mouseenter', Swal.stopTimer)
+            toast.addEventListener('mouseleave', Swal.resumeTimer)
+        }
+    })
+    alertaToast(icono,texto) {
+        return this.alertaToastSweet.fire({
+            icon: icono,
+            title: texto
+        })
+    }
+    sweetAlert(icono,titulo,texto){
+        return Swal.fire({
+            icon: icono,
+            title : titulo,
+            text : texto
+        });
+    }
+    sweetAlertConfirm(titulo,texto,textoSuccess,textoError) {
+        return Swal.fire({
+            icon: 'question',
+            title : titulo,
+            text : texto,
+            showCancelButton: true,
+            confirmButtonText: 'Eliminar',
+            cancelButtonText: 'Cancelar',
+        });
+    }
+    
     cargandoPeticion($boton,claseIcono,deshabilitar){
         const btn = $boton.querySelector("i");
         if(deshabilitar){

@@ -18,7 +18,7 @@
                     <h3 class="text-center titulo-principal-modulo">Agregar producto</h3>
                 </div>
                 <div class="pasos pt-3 pb-4">
-                    <div class="paso" id="btnPaso1" style="background-color: rgb(255, 110, 110);color:#fff;">
+                    <div class="paso" id="btnPaso1" style="background-color: var(--color-principal);color:#fff;">
                         <span>1</span>
                         <div class="regla" style="width: 0;"></div>
                     </div>

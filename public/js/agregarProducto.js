@@ -64,7 +64,7 @@ function loadPage() {
         boxFormulario1.hidden = true;
         boxFormulario2.hidden = false;
         boxPasos[0].querySelector(".regla").style.width = "102px";
-        boxPasos[1].style.backgroundColor = "rgb(255, 110, 110)";
+        boxPasos[1].style.backgroundColor = "var(--color-principal)";
         boxPasos[1].style.color = "#fff";
     });
     formularios[1].addEventListener("submit", function (e) {
@@ -72,7 +72,7 @@ function loadPage() {
         boxFormulario2.hidden = true;
         boxFormulario3.hidden = false;
         boxPasos[1].querySelector(".regla").style.width = "102px";
-        boxPasos[2].style.backgroundColor = "rgb(255, 110, 110)";
+        boxPasos[2].style.backgroundColor = "var(--color-principal)";
         boxPasos[2].style.color = "#fff";
     });
     document.querySelector("#btnSiguienteFinalizar").addEventListener("click", function (e) {
@@ -96,8 +96,12 @@ function loadPage() {
         }).then(response => response.json())
         .then(data => {
             if(data.success){
-                alert("Producto registrado correctamente");
-                eliminarTodo();
+                Swal.fire({
+                    icon: 'success',
+                    text: 'Producto registrado correctamente'
+                }).then(result => {
+                    eliminarTodo();
+                })
             }
         }).catch(error => {
             console.error(error);

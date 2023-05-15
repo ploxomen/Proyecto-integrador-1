@@ -27,28 +27,35 @@ class Producto {
     }
     public function mostrarProductos()
     {
-        $modelProdcuto = new ProductoModel();
-        return ['data' => $modelProdcuto->mostrar()];
+        $modelProducto = new ProductoModel();
+        return ['data' => $modelProducto->mostrar()];
+    }
+    public function eliminarProducto(int $idProducto)
+    {
+        $modelProducto = new ProductoModel();
+        $modelProducto->setId($idProducto);
+        $modelProducto->setIdBodega(1);
+        return $modelProducto->eliminar();
     }
     public function agregarProducto(array $datos)
     {
-        $modelProdcuto = new ProductoModel();
-        $modelProdcuto->setNombre($datos['nombre']);
-        $modelProdcuto->setIdBodega(1);
-        $modelProdcuto->setImg('aas');
-        $modelProdcuto->setDescripcion($datos['descripcion']);
-        $modelProdcuto->setIdMarca(intval($datos['marca']));
-        $modelProdcuto->setPrecioCompra(floatval($datos['precioCompra']));
-        $modelProdcuto->setPrecioVenta(floatval($datos['precioVenta']));
-        $modelProdcuto->setStock(floatval($datos['stock']));
-        $modelProdcuto->setStockMinimo(floatval($datos['stockMinimo']));
-        $modelProdcuto->setDescuento(floatval($datos['descuento']));
+        $modelProducto = new ProductoModel();
+        $modelProducto->setNombre($datos['nombre']);
+        $modelProducto->setIdBodega(1);
+        $modelProducto->setImg('aas');
+        $modelProducto->setDescripcion($datos['descripcion']);
+        $modelProducto->setIdMarca(intval($datos['marca']));
+        $modelProducto->setPrecioCompra(floatval($datos['precioCompra']));
+        $modelProducto->setPrecioVenta(floatval($datos['precioVenta']));
+        $modelProducto->setStock(floatval($datos['stock']));
+        $modelProducto->setStockMinimo(floatval($datos['stockMinimo']));
+        $modelProducto->setDescuento(floatval($datos['descuento']));
         $categorias = [];
         foreach ($_POST['categoria'] as $cat) {
             $categorias[] = ['categoria' => $cat];
         }
-        $modelProdcuto->setIdCategoriasJson(json_encode($categorias));
-        return $modelProdcuto->agregar();
+        $modelProducto->setIdCategoriasJson(json_encode($categorias));
+        return $modelProducto->agregar();
     }
 }
 
