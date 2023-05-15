@@ -2,6 +2,7 @@
 <html lang="es">
 
 <head>
+    <!-- Añadimos los archivos requeridos como css y js agrupados en un php -->
     <?php require_once($_SERVER['DOCUMENT_ROOT'] . "/Views/helpers/headerDashboard.php"); ?>
     <?php require_once($_SERVER['DOCUMENT_ROOT'] . "/Views/helpers/headerDatatable.php"); ?>
     <script src="./../../Public/js/agregarProducto.js"></script>
@@ -10,6 +11,7 @@
 </head>
 
 <body>
+    <!-- Llamamos nuestro dashbord ya creado -->
     <?php require_once($_SERVER['DOCUMENT_ROOT'] . "/Views/helpers/dashboardBodega.php") ?>
     <main class="contenido-pagina">
         <div class="container">
@@ -44,6 +46,7 @@
                                 <label for="descripcionProducto" class="form-label">Descripción</label>
                                 <textarea name="descripcion" class="form-control form-control-sm" id="descripcionProducto" rows="3"></textarea>
                             </div>
+                            <!-- Recorremos las categorias que nos esta mandando nuestro controlador -->
                             <div class="mb-2 col-12 col-md-6 col-lg-8">
                                 <label for="cbCategorias" class="form-label">Categorías</label>
                                 <select name="categoria[]" id="cbCategorias" multiple required>
@@ -55,6 +58,7 @@
                                     ?>
                                 </select>
                             </div>
+                            <!-- Recorremos las marcas que nos esta mandando nuestro controlador -->
                             <div class="mb-2 col-12 col-md-6 col-lg-4">
                                 <label for="cbMarca" class="form-label">Marca</label>
                                 <select name="marca" class="form-select form-select-sm" id="cbMarca" required>

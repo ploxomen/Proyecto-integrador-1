@@ -28,6 +28,11 @@ class Usuario extends Conexion
         $stmt->close();
         return $result;
     }
+    public function obtenerDatosLogeado()
+    {
+        $datos = ['bodega' => 'Bodega Lucero' , 'id' => 1];
+        return $datos;
+    }
     public function setCorreo(string $correo)
     {
         $this->correo = $correo;
