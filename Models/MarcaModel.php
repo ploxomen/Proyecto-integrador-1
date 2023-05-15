@@ -16,6 +16,53 @@ class Marca extends Conexion{
         $stmt->close();
         $result = [];
         while($result[] = $rs->fetch_assoc());
+        array_pop($result);
         return $result;
+    }
+    public function agregar()
+    {
+        $cn = $this->conectar();
+        $stmt = $cn->prepare("CALL SP_C_T_MARCAS(?)");
+        $stmt->bind_param("s", $this->nombre);
+        $stmt->execute();
+        var_dump($stmt);
+        $response = $stmt->error == '' ? ['success' => 'marca agregado correctamente'] : ['error' => 'la marca no se agrego'];
+        $stmt->close();
+        return $response;
+    }
+
+    public function eliminar()
+    {
+        $cn = $this->conectar();
+        $stmt = $cn->prepare("CALL SP_D_T_MARCAS(?)");
+        $stmt->bind_param("i",$this->id);
+        $stmt->execute();
+        $response = $stmt->error == '' ? ['success' => 'Marca eliminado correctamente'] : ['error' => 'La marca no se eliminó'];
+        $stmt->close();
+        return $response;
+    }
+
+    public function actualizar()
+    {
+        $cn = $this->conectar();
+        $stmt = $cn->prepare("CALL SP_U_T_MARCAS(?,?)");
+        $stmt->bind_param("is",$this->id, $this->nombre);
+        $stmt->execute();
+        $response = $stmt->error == '' ? ['success' => 'Marca actualizada correctamente'] : ['error' => 'La marca no se actualizó'];
+        $stmt->close();
+        return $response;
+    }
+
+    public function setId(int $id): self
+    {
+        $this->id = $id;
+
+        return $this;
+    }
+    public function setNombre(string $nombre): self
+    {
+        $this->nombre = $nombre;
+
+        return $this;
     }
 }
