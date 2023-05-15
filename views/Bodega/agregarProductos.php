@@ -85,7 +85,7 @@
                                 </div>
                                 <div class="mb-2 col-12 col-md-6 col-lg-4">
                                     <label for="txtPrecioVenta" class="form-label">Precio venta (S/)</label>
-                                    <input type="number" name="precioVenta" step="0.01" class="form-control form-control-sm" id="txtPrecioVenta" required>
+                                    <input type="number" name="precioVenta" step="0.01" class="form-control form-control-sm mayor-cero" data-valid="precio venta" id="txtPrecioVenta" required>
                                 </div>
                                 <div class="mb-2 col-12 col-md-6 col-lg-4">
                                     <label for="txtPrecioVenta" class="form-label">Descuento (S/)</label>
@@ -97,7 +97,7 @@
                                 </div>
                                 <div class="mb-2 col-12 col-md-6">
                                     <label for="txtStock" class="form-label">Stock</label>
-                                    <input type="number" name="stock" step="0.01" class="form-control form-control-sm" id="txtStock" required>
+                                    <input type="number" name="stock" step="0.01" class="form-control form-control-sm mayor-cero" data-valid="stock" id="txtStock" required>
                                 </div>
                                 <input type="submit" id="formSegudo" hidden>
                             </form>

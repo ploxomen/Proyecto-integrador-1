@@ -2,6 +2,7 @@ class Helper{
     urlProductos = window.location.origin + "/Http/Bodega/productos.php"
     urlBodegas = window.location.origin + "/Http/Administrador/Bodega.php"
     urlMarcas = window.location.origin + "/Http/Administrador/Marcas.php"
+    urlCategorias = window.location.origin + "/Http/Administrador/Categorias.php"
     peticionHttp(url,metodo,datos){
         return fetch(url,{
             method: metodo,

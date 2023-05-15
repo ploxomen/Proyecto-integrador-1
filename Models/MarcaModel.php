@@ -25,8 +25,7 @@ class Marca extends Conexion{
         $stmt = $cn->prepare("CALL SP_C_T_MARCAS(?)");
         $stmt->bind_param("s", $this->nombre);
         $stmt->execute();
-        var_dump($stmt);
-        $response = $stmt->error == '' ? ['success' => 'marca agregado correctamente'] : ['error' => 'la marca no se agrego'];
+        $response = $stmt->error == '' ? ['success' => 'Marca agregada correctamente'] : ['error' => 'La marca no se agregó'];
         $stmt->close();
         return $response;
     }
@@ -37,7 +36,7 @@ class Marca extends Conexion{
         $stmt = $cn->prepare("CALL SP_D_T_MARCAS(?)");
         $stmt->bind_param("i",$this->id);
         $stmt->execute();
-        $response = $stmt->error == '' ? ['success' => 'Marca eliminado correctamente'] : ['error' => 'La marca no se eliminó'];
+        $response = $stmt->error == '' ? ['success' => 'Marca eliminada correctamente'] : ['error' => 'La marca no se eliminó'];
         $stmt->close();
         return $response;
     }

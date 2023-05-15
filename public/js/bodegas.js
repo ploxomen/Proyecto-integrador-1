@@ -72,6 +72,10 @@ function loadPage() {
     btnModalBodega.onclick = e => document.querySelector("#btnSubmitFrmBodega").click();
     frmBodega.addEventListener("submit",async function(e){
         e.preventDefault();
+        // return Swal.fire({
+        //     icon: 'error',
+        //     text: 'El correo electrónico es invalido'
+        // });
         let datos = new FormData(this);
         datos.append("accion","agregar-bodega");
         try {

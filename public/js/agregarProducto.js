@@ -80,6 +80,9 @@ function loadPage() {
         if (fileProducto.value == "" || !fileProducto.files.length){
             return alert("Por favor carge una imagen del producto");
         }
+        if(validarEnteros()){
+            return false;
+        }
         let formData = new FormData(formularios[0]);
         let formDataDos = new FormData(formularios[1]);
         let formDataTres = new FormData(formularios[2]);
@@ -117,6 +120,19 @@ function loadPage() {
         }
         imagenPrevia.hidden = true;
         boxImagenPrevia.hidden = false;
+    }
+    function validarEnteros(){
+        for (const mCero of document.querySelectorAll(".mayor-cero")) {
+            const valor = !isNaN(parseFloat(mCero.value)) ? parseFloat(mCero.value) : 0;
+            if(valor<=0){
+                Swal.fire({
+                    icon: 'error',
+                    text: 'El ' + mCero.dataset.valid + " debe ser mayor a cero"
+                });
+                return true;
+            }
+        }
+        return false;
     }
 }
 window.addEventListener("DOMContentLoaded",loadPage);

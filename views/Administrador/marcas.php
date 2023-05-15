@@ -27,21 +27,18 @@
             <div class="py-3">
                 <h4 class="titulo-principal-modulo"><i class="fa-solid fa-caret-right"></i> Lista de marcas</h4>
             </div>
-            <div class="table-responsive">
-                <table class="table table-sm table-bordered" id="misMarcas">
-                    <thead class="text-center">
-                        <tr>
-                            <th>N°</th>
-                            <th>Nombre Marca</th>
-                            <th>Acciones</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        
-                    </tbody>
-                </table>
-            </div>
-            
+            <table class="table table-sm table-bordered" id="misMarcas">
+                <thead class="text-center">
+                    <tr>
+                        <th>N°</th>
+                        <th>Nombre Marca</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    
+                </tbody>
+            </table>
         </div>
     </main>
     <?php require_once 'modales/mmarcas.php'; ?>

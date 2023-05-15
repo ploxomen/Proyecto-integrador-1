@@ -74,19 +74,24 @@ function loadPage() {
     btnModalMarca.onclick = e => document.querySelector("#btnSubmitFrmMarca").click();
     frmMarca.addEventListener("submit",async function(e){
         e.preventDefault();
-        console.log(e);
+        // return Swal.fire({
+        //     icon: 'error',
+        //     text: 'El nombre de la marca solo acepta letras y/o números'
+        // });
         let datos = new FormData(this);
         datos.append("accion","agregar-marca");
         try {
             const response = await helper.peticionHttp(helper.urlMarcas,"POST",datos);
             if(response.success){
-                modalBoxMarca.hide();
-                datatableMisMarca.ajax.reload();
+                modalMarca.hide();
+                datatableMarca.ajax.reload();
                 helper.sweetAlert("success",null,response.success);
+                this.reset();
             }else if(response.error){
                 helper.sweetAlert("error",null,response.error);
             }
         } catch (error) {
+            console.error(error);
             helper.sweetAlert("error",null,"Error al agregar marca");
         }
     })

@@ -3,9 +3,8 @@ use Controllers\Administrador\Marcas;
 require_once '../../Controllers/Administrador/Marcas.php';
 $cMarcas = new Marcas;
 switch ($_POST['accion']) {
-    case 'agregar-marcas':
+    case 'agregar-marca':
         $response = $cMarcas->agregarMarca($_POST);
-        var_dump($_POST);
         echo json_encode($response);
     break;
     case 'ver-marcas':
