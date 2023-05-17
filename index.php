@@ -10,5 +10,7 @@ $router->add("/intranet/bodega/mis-productos", "Controllers\Bodega\Producto@inde
 $router->add("/intranet/administrador/categorias", "Controllers\Administrador\Categorias@indexCategorias");
 $router->add("/intranet/administrador/bodegas", "Controllers\Administrador\Bodegas@indexBodegas");
 $router->add("/intranet/administrador/marcas", "Controllers\Administrador\Marcas@indexMarcas");
+$router->add("/intranet/inicio", "Controllers\Login@inicioIntranet");
+$router->add("/usuario/cerrar-sesion", "Controllers\Login@cerrarSesion");
 $router->run();
 ?>

@@ -44,6 +44,10 @@ body{
 footer{
     background-color: var(--color-footer);
 }
+.btn-login-access{
+    background-color: var(--color-principal) !important;
+    color: #fff !important;
+}
 footer .lista-redes{
     display: flex;
     gap: 20px 30px;

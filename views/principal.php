@@ -50,51 +50,19 @@
             <h3 class="titulo-principal py-3">Categorías</h3>
             <div class="categorias m-auto">
                 <div class="lista-categorias">
-                    <div class="categoria">
-                        <a href="">
-                            <img src="./../public/img/categorias/aseo.png" alt="">
-                            <span>Aseo personal</span>
-                        </a>
+                    <?php
+                    foreach ($listaCategorias as $categoria) {
+                    ?>
+                        <div class="categoria">
+                            <a href="">
+                                <img src="./../public/img/categorias/<?php echo mb_strtolower($categoria['nombreCategoria'],"UTF-8") ?>.png" alt="">
+                                <span><?= $categoria['nombreCategoria'] ?></span>
+                            </a>
 
-                    </div>
-                    <div class="categoria">
-                        <a href="">
-                            <img src="./../public/img/categorias/limpieza.png" alt="">
-                            <span>Limpieza</span>
-                        </a>
-
-                    </div>
-                    <div class="categoria">
-                        <a href="">
-                            <img src="./../public/img/categorias/abarrotes.png" alt="">
-                            <span>Abarrotes</span>
-                        </a>
-
-                    </div>
-                    <div class="categoria">
-                        <a href="">
-                            <img src="./../public/img/categorias/bebidas.png" alt="">
-                            <span>Bedidas</span>
-                        </a>
-                    </div>
-                    <div class="categoria">
-                        <a href="">
-                            <img src="./../public/img/categorias/carnes.png" alt="">
-                            <span>Carnes y embutidos</span>
-                        </a>
-                    </div>
-                    <div class="categoria">
-                        <a href="">
-                            <img src="./../public/img/categorias/lacteos.png" alt="">
-                            <span>Lacteos</span>
-                        </a>
-                    </div>
-                    <div class="categoria">
-                        <a href="">
-                            <img src="./../public/img/categorias/golosinas.png" alt="">
-                            <span>Golosinas</span>
-                        </a>
-                    </div>
+                        </div>
+                    <?php
+                    }
+                    ?>
                 </div>
             </div>
             <div class="productos py-3">

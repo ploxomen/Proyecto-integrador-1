@@ -3,6 +3,8 @@ class Helper{
     urlBodegas = window.location.origin + "/Http/Administrador/Bodega.php"
     urlMarcas = window.location.origin + "/Http/Administrador/Marcas.php"
     urlCategorias = window.location.origin + "/Http/Administrador/Categorias.php"
+    urlLogin = window.location.origin + "/Http/Usuario.php"
+
     peticionHttp(url,metodo,datos){
         return fetch(url,{
             method: metodo,
@@ -11,7 +13,7 @@ class Helper{
     }
     alertaToastSweet = Swal.mixin({
         toast: true,
-        position: 'bottom-end',
+        position: 'bottom',
         showConfirmButton: false,
         timer: 3000,
         timerProgressBar: true,
@@ -33,13 +35,13 @@ class Helper{
             text : texto
         });
     }
-    sweetAlertConfirm(titulo,texto,textoSuccess,textoError) {
+    sweetAlertConfirm(titulo,texto,btTextoConfirm = "Eliminar") {
         return Swal.fire({
             icon: 'question',
             title : titulo,
             text : texto,
             showCancelButton: true,
-            confirmButtonText: 'Eliminar',
+            confirmButtonText: btTextoConfirm,
             cancelButtonText: 'Cancelar',
         });
     }

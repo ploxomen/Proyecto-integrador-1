@@ -13,7 +13,16 @@ class Bodegas
 {
     public function indexBodegas()
     {
-        // echo 'asss';
+        $usuarioModel = new UsuarioModel();
+        $data = $usuarioModel->obtenerDatosAutenticado();
+        if (empty($data)) {
+            header("location: /login");
+            die();
+        }
+        if (!in_array($data['rol'], [$usuarioModel->rolAdministrador])) {
+            header("location: /intranet/inicio");
+            die();
+        }
         require_once($_SERVER['DOCUMENT_ROOT'] . "/Views/Administrador/bodegas.php");
     }
     public function obtenerBodegas()

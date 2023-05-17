@@ -2,14 +2,25 @@
 
 namespace Controllers\Administrador;
 require_once $_SERVER['DOCUMENT_ROOT'] . '/Models/MarcaModel.php';
+require_once $_SERVER['DOCUMENT_ROOT'] . '/Models/UsuarioModel.php';
 
 use Models\Marca as MarcaModel;
+use Models\Usuario as UsuarioModel;
 
 class Marcas
 {
     public function indexMarcas()
     {
-        // echo 'asss';
+        $usuarioModel = new UsuarioModel();
+        $data = $usuarioModel->obtenerDatosAutenticado();
+        if (empty($data)) {
+            header("location: /login");
+            die();
+        }
+        if (!in_array($data['rol'], [$usuarioModel->rolAdministrador])) {
+            header("location: /intranet/inicio");
+            die();
+        }
         require_once($_SERVER['DOCUMENT_ROOT'] . "/Views/Administrador/marcas.php");
     }
     public function obtenerMarca()

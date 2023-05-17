@@ -17,6 +17,16 @@ class Producto {
     //Definimos el método el cual mostrará la vista de agregar producto
     public function indexAdminProducto()
     {
+        $usuarioModel = new UsuarioModel();
+        $data = $usuarioModel->obtenerDatosAutenticado();
+        if (empty($data)) {
+            header("location: /login");
+            die();
+        }
+        if (!in_array($data['rol'], [$usuarioModel->rolBodega])) {
+            header("location: /intranet/inicio");
+            die();
+        }
         //Instanciamos el modelo de la Marca
         $marcaModel = new MarcaModel();
         //Instanciamos el modelo de Categoría
@@ -30,6 +40,16 @@ class Producto {
     //Definimos el método el cual mostrará la vista de los productos
     public function indexAdminMisProductos()
     {
+        $usuarioModel = new UsuarioModel();
+        $data = $usuarioModel->obtenerDatosAutenticado();
+        if (empty($data)) {
+            header("location: /login");
+            die();
+        }
+        if (!in_array($data['rol'], [$usuarioModel->rolBodega])) {
+            header("location: /intranet/inicio");
+            die();
+        }
         //Instanciamos el modelo de la Marca
         $marcaModel = new MarcaModel();
         //Instanciamos el modelo de Categoría
@@ -76,8 +96,11 @@ class Producto {
         //Seteamos los atributos que son privados a traves de de las funciones (set)
         $modelProducto->setNombre($datos['nombre']);
         //Obtenemos el id de la bodega logeada
-        $datosBodega = $modelUsuario->obtenerDatosLogeado();
-        $modelProducto->setIdBodega($datosBodega['id']);
+        $datosBodega = $modelUsuario->obtenerDatosAutenticado();
+        if(empty($datosBodega)){
+            return ['error' => 'No se encontró la bodega'];
+        }
+        $modelProducto->setIdBodega($datosBodega['idAccesoRol']);
         $modelProducto->setDescripcion($datos['descripcion']);
         $modelProducto->setIdMarca(intval($datos['marca']));
         $modelProducto->setPrecioCompra(floatval($datos['precioCompra']));
@@ -118,7 +141,11 @@ class Producto {
         //Seteamos los atributos que son privados a traves de de las funciones (set)
         $modelProducto->setNombre($datos['nombre']);
         //Obtenemos el id de la bodega logeada
-        $datosBodega = $modelUsuario->obtenerDatosLogeado();
+        $datosBodega = $modelUsuario->obtenerDatosAutenticado();
+        if (empty($datosBodega)) {
+            return ['error' => 'No se encontró la bodega'];
+        }
+        $modelProducto->setIdBodega($datosBodega['idAccesoRol']);        
         $modelProducto->setId($datosBodega['idProducto']);
         $modelProducto->setIdBodega($datosBodega['id']);
         $modelProducto->setDescripcion($datos['descripcion']);
