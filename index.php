@@ -4,6 +4,7 @@ require_once("Router.php");
 require_once("Config/config.php");
 $router = new Router();
 $router->add("/", "Controllers\PaginaPrincipal@indexHome");
+$router->add("/listar/productos", "Controllers\PaginaPrincipal@indexVerProductos");
 $router->add("/login", "Controllers\Login@indexLogin");
 $router->add("/intranet/bodega/agregar-producto", "Controllers\Bodega\Producto@indexAdminProducto");
 $router->add("/intranet/bodega/mis-productos", "Controllers\Bodega\Producto@indexAdminMisProductos");

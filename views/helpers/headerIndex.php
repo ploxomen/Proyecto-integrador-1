@@ -17,7 +17,7 @@
                 </li>
                 <li> <a href=""><i class="fa-solid fa-users"></i> Nosotros</a>
                 </li>
-                <li> <a href=""><i class="fa-solid fa-box-open"></i> Productos</a>
+                <li> <a href="/listar/productos" class="<?php echo $_SERVER['REQUEST_URI'] == '/listar/productos' ? 'activo-btn' : '' ?>"><i class="fa-solid fa-box-open"></i> Productos</a>
                 </li>
                 <li class="<?php echo $_SERVER['REQUEST_URI'] == '/login' ? 'activo-btn' : '' ?>">
                     <?php

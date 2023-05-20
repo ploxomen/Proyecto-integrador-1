@@ -19,6 +19,18 @@ class Marca extends Conexion{
         array_pop($result);
         return $result;
     }
+    public function obtenerMarcasProductos()
+    {
+        $cn = $this->conectar();
+        $stmt = $cn->prepare("CALL SP_R_T_MARCAS_PRODUCTOS()");
+        $stmt->execute();
+        $rs = $stmt->get_result();
+        $result = [];
+        while ($result[] = $rs->fetch_assoc());
+        array_pop($result);
+        $stmt->close();
+        return $result;
+    }
     public function agregar()
     {
         $cn = $this->conectar();

@@ -56,6 +56,18 @@ class Categoria extends Conexion
         $stmt->close();
         return $response;
     }
+    public function obtenerCategoriasProductos()
+    {
+        $cn = $this->conectar();
+        $stmt = $cn->prepare("CALL SP_R_T_CATEGORIAS_PRODUCTOS()");
+        $stmt->execute();
+        $rs = $stmt->get_result();
+        $result = [];
+        while ($result[] = $rs->fetch_assoc());
+        array_pop($result);
+        $stmt->close();
+        return $result;
+    }
     /**
      * Get the value of id
      */
