@@ -1,0 +1,35 @@
+.un-producto img{
+    display: block;
+    margin: auto;
+    width: 150px;
+    height: 150px;
+    object-fit: contain;
+}
+.lista-productos .un-producto{
+    max-width: 280px !important;
+}
+.lista-productos .un-producto .precio{
+    font-size: 23px;
+}
+.lista-productos .un-producto button{
+    background-color: var(--color-principal) !important;
+    color: #fff;
+    font-weight: bold;
+}
+.lista-productos .un-producto button:active{
+    background-color: var(--color-principal) !important;
+    color: #fff;
+}
+.contenedor-productos{
+    min-height: 700px;
+}
+.icono-excepcion {
+    font-size: 80px;
+    color: var(--color-principal);
+}
+.bodega-texto {
+    font-size: 0.7rem;
+}
+.marca-texto {
+    font-size: 0.9rem;
+}

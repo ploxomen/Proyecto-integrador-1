@@ -64,3 +64,30 @@ form > div:has(input:required,select:required) label::after{
     font-weight: bold;
     color: red !important;
 }
+.badge-notification::before{
+    content: attr(data-info);
+    display: block;
+    position: absolute;
+    font-size: 10px;
+    color: #ffff;
+    text-align: center;
+    top: -5px;
+    right: -5px;
+    width: 14px;
+    height: 14px;
+    border-radius: 5px;
+    background: rgb(255, 97, 97);
+}
+.btn-primario-pg{
+    background-color: var(--color-principal) !important;
+    color: #fff;
+    font-weight: bold;
+}
+.btn-primario-pg{
+    background-color: var(--color-principal) !important;
+    color: #fff;
+}
+button > *{
+    pointer-events: none !important;
+    user-select: none !important;
+}

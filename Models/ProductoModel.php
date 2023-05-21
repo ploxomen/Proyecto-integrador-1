@@ -97,6 +97,32 @@ class Producto extends Conexion{
         //Retornamos la variable de respuesta
         return $response;
     }
+    public function verProductosClientes(string $producto,string $categorias,string $marcas,string $ordenar)
+    {
+        $cn = $this->conectar();
+        $stmt = $cn->prepare("CALL SP_R_T_PRODUCTOS_COMPRAS(?,?,?,?)");
+        $stmt->bind_param("ssss",$producto,$ordenar,$categorias,$marcas);
+        $stmt->execute();
+        $rs = $stmt->get_result();
+        $result = [];
+        while ($result[] = $rs->fetch_assoc());
+        array_pop($result);
+        $stmt->close();
+        return $result;
+    }
+    public function verProductosClientesCarrito(string $idProductos)
+    {
+        $cn = $this->conectar();
+        $stmt = $cn->prepare("CALL SP_R_T_PRODUCTOS_COMPRAS_CARRITO(?)");
+        $stmt->bind_param("s",$idProductos);
+        $stmt->execute();
+        $rs = $stmt->get_result();
+        $result = [];
+        while ($result[] = $rs->fetch_assoc());
+        array_pop($result);
+        $stmt->close();
+        return $result;
+    }
     public function setId(int $idProducto)
     {
         $this->id = $idProducto;

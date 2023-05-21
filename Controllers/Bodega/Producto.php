@@ -180,6 +180,15 @@ class Producto {
         return $modelProducto->actualizar();
         //Se retorna error en caso no haya imagen
     }
+    public function obtenerProductosCliente(array $datos)
+    {
+        $modelProducto = new ProductoModel();
+        $categorias = isset($datos['categorias']) ? implode(",",$datos['categorias']) : '';;
+        $marcas = isset($datos['marcas']) ? implode(",",$datos['marcas']) : '';
+        $ordenar = isset($datos['ordenProducto']) ? $datos['ordenProducto'] : '';
+        $producto = isset($datos['nombreProducto']) ? $datos['nombreProducto'] : '';
+        return ['productos' => $modelProducto->verProductosClientes($producto,$categorias,$marcas,$ordenar)];
+    }
 }
 
 ?>

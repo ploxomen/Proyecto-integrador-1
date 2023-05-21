@@ -8,16 +8,14 @@
         </div>
         <div>
             <ul class="indices-navegacion">
-                <li class="<?php echo $_SERVER['REQUEST_URI'] == '/proyecto_integrador/views/principal.php' ? 'activo' : '' ?>">
+                <li class="<?php echo $_SERVER['REQUEST_URI'] == '/' ? 'activo' : '' ?>">
                     <a href="/">
                         <i class="fa-solid fa-house"></i> Inicio
                     </a>
                 </li>
-                <li> <a href=""><i class="fa-solid fa-id-badge"></i> Contacto</a>
-                </li>
                 <li> <a href=""><i class="fa-solid fa-users"></i> Nosotros</a>
                 </li>
-                <li> <a href="/listar/productos" class="<?php echo $_SERVER['REQUEST_URI'] == '/listar/productos' ? 'activo-btn' : '' ?>"><i class="fa-solid fa-box-open"></i> Productos</a>
+                <li class="<?php echo $_SERVER['REQUEST_URI'] == '/listar/productos' ? 'activo' : '' ?>"> <a href="<?php echo URL . '/listar/productos' ?>" class=""><i class="fa-solid fa-box-open"></i> Productos</a>
                 </li>
                 <li class="<?php echo $_SERVER['REQUEST_URI'] == '/login' ? 'activo-btn' : '' ?>">
                     <?php
@@ -35,7 +33,7 @@
                     <?php
                     } else {
                     ?>
-                        <a href="login" class="btn btn-sm btn-light text-secondary">
+                        <a href="<?php echo URL . '/login' ?>" class="btn btn-sm btn-light text-secondary">
                             <i class='fa-solid fa-user'></i>
                         </a>
                     <?php
@@ -43,8 +41,8 @@
                     ?>
                     </a>
                 </li>
-                <li>
-                    <a href="" class="btn btn-sm btn-light text-secondary">
+                <li class="<?php echo $_SERVER['REQUEST_URI'] == '/carrito/compras' ? 'activo-btn' : '' ?>">
+                    <a href="<?php echo URL . '/carrito/compras' ?>" class="btn btn-sm btn-light text-secondary position-relative <?php echo isset($_COOKIE['carrito_compras']) ? 'badge-notification' : ''?>" id="btnCarritoCompras" data-info="<?php echo isset($_COOKIE['carrito_compras']) ? count(json_decode($_COOKIE['carrito_compras'],true)) : ''?>">
                         <i class="fa-solid fa-cart-shopping"></i>
                     </a>
                 </li>
@@ -52,11 +50,15 @@
         </div>
     </nav>
     <script>
-        document.querySelector("#btn-cerrar-sesion").addEventListener("click",async e => {
-            const alertaSweet = await (new Helper()).sweetAlertConfirm(null, "¿Deseas cerrar sesión?","Aceptar");
-            if (alertaSweet.isConfirmed) {
-                window.location.href = window.origin + "/usuario/cerrar-sesion";
-            }
-        });
+        const btnCerrarSesion = document.querySelector("#btn-cerrar-sesion");
+        if(btnCerrarSesion){
+            btnCerrarSesion.addEventListener("click",async e => {
+                const alertaSweet = await (new Helper()).sweetAlertConfirm(null, "¿Deseas cerrar sesión?","Aceptar");
+                if (alertaSweet.isConfirmed) {
+                    window.location.href = window.origin + "/usuario/cerrar-sesion";
+                }
+            });
+        }
+        
     </script>
 </header>

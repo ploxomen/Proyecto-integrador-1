@@ -1,6 +1,7 @@
 <?php
 use Controllers\Login;
 require_once $_SERVER['DOCUMENT_ROOT'] . '/Controllers/Login.php';
+
 $cLogin = new Login;
 switch ($_POST['accion']) {
     case 'autenticar':
