@@ -123,12 +123,12 @@
                                     <input type="text" name="apellidos" id="txtApellidos" class="form-control form-control-lg" disabled value="<?php echo isset($data['apellidos']) ? $data['apellidos'] : '' ?>">
                                 </div>
                                 <div class="mb-2 col-12">
-                                    <label for="txtDireccion">Dirección</label>
-                                    <input type="text" name="direccion" id="txtDireccion" value="<?php echo isset($data['direccion']) ? $data['direccion'] : '' ?>" class="form-control form-control-lg" required>
+                                    <label for="txtDireccion">Dirección de envío</label>
+                                    <input type="text" name="direccion" id="txtDireccion" value="<?php echo isset($data['direccion']) ? $data['direccion'] : 'Av. Universitaria 307 - Los Olivos' ?>" class="form-control form-control-lg" required>
                                 </div>
                                 <div class="mb-2 col-12 col-md-6">
                                     <label for="txtCelular">Celular</label>
-                                    <input type="tel" name="celular" id="txtCelular" value="<?php echo isset($data['celular']) ? $data['celular'] : '' ?>" class="form-control form-control-lg" required>
+                                    <input type="tel" name="celular" id="txtCelular" value="<?php echo isset($data['celular']) ? $data['celular'] : '987456215' ?>" class="form-control form-control-lg" required>
                                 </div>
                             </form>
                         </div>

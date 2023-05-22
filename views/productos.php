@@ -2,6 +2,7 @@
 <html lang="es">
 
 <head>
+    <!-- Incluimos los headers definidos en otra carpeta -->
     <?php include("helpers/header.php") ?>
     <link rel="stylesheet" href="./../public/css/productosCliente.css">
     <script src="./../public/js/productosCliente.js"></script>
@@ -9,6 +10,7 @@
 </head>
 
 <body>
+    <!-- Incluimos la cabecera -->
     <?php include("helpers/headerIndex.php"); ?>
     <main class="contenedor-productos">
         <h2 class="text-center titulo-principal-modulo my-4">!ENCUENTRA TUS PRODUCTOS AQUI!</h2>
@@ -19,12 +21,14 @@
                         <h5 class="titulo-principal-modulo">Categorías</h5>
                         <div class="card" style="width: 18rem;">
                             <ul class="list-group list-group-flush">
+                                <!-- Recorremos las categorias -->
                                 <?php
                                     foreach ($categorias as $categoria) {
                                 ?>
                                 <li class="list-group-item">
                                     <div class="d-flex justify-content-between">
                                         <div class="custom-control custom-checkbox">
+                                            <!-- Concatenamos con el html para que sea dinamico -->
                                             <input type="checkbox" name="categorias[]" class="custom-control-input" value="<?php echo $categoria['id'] ?>" id="<?php echo 'categoriaId' . $categoria['id'] ?>">
                                             <label class="custom-control-label" for="<?php echo 'categoriaId' . $categoria['id'] ?>"><?php echo $categoria['categoria'] ?></label>
                                         </div>
@@ -42,12 +46,14 @@
                         <h5 class="titulo-principal-modulo">Marcas</h5>
                         <div class="card" style="width: 18rem;">
                             <ul class="list-group list-group-flush">
+                                <!-- Recorremos las marcas -->
                                 <?php
                                     foreach ($marcas as $marca) {
                                 ?>
                                 <li class="list-group-item">
                                     <div class="d-flex justify-content-between">
                                         <div class="custom-control custom-checkbox">
+                                            <!-- Concatenamos con el html para que sea dinamico -->
                                             <input type="checkbox" name="marcas[]" class="custom-control-input" value="<?php echo $marca['id'] ?>" id="<?php echo 'categoriaId' . $marca['id'] ?>">
                                             <label class="custom-control-label" for="<?php echo 'categoriaId' . $marca['id'] ?>"><?php echo $marca['marcas'] ?></label>
                                         </div>
@@ -114,6 +120,7 @@
             </section>
         </div>
     </main>
+    <!-- Incluimos el pie de pagina -->
     <?php include("helpers/footerIndex.php"); ?>
 
 </body>
