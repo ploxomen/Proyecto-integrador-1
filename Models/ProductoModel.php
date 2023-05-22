@@ -97,17 +97,28 @@ class Producto extends Conexion{
         //Retornamos la variable de respuesta
         return $response;
     }
+    //Definimos la funcion y le pasamos las variables necesarias
     public function verProductosClientes(string $producto,string $categorias,string $marcas,string $ordenar)
     {
+        //realizamos la conexion
         $cn = $this->conectar();
+        //llamamos al procedimiento almacenado
         $stmt = $cn->prepare("CALL SP_R_T_PRODUCTOS_COMPRAS(?,?,?,?)");
+        //colocamos las variables
         $stmt->bind_param("ssss",$producto,$ordenar,$categorias,$marcas);
+        //ejecutamos la consulta
         $stmt->execute();
+        //obtenemos los datos
         $rs = $stmt->get_result();
+        //definimos un arreglo
         $result = [];
+        //recorremos el resultado y lo llenamos en la variable
         while ($result[] = $rs->fetch_assoc());
+        //eliminamos el ultimo registro que es nulo
         array_pop($result);
+        //cerramos coneccion
         $stmt->close();
+        //retornamos el resultado
         return $result;
     }
     public function verProductosClientesCarrito(string $idProductos)

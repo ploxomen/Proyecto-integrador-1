@@ -2,6 +2,7 @@
 <html lang="es">
 
 <head>
+    <!-- Incluimos nuestras cabeceras -->
     <?php include("helpers/header.php") ?>
     <link rel="stylesheet" href="./../../public/css/agregarProducto.css">
     <link rel="stylesheet" href="./../public/css/carritoCompras.css">
@@ -10,6 +11,7 @@
 </head>
 
 <body>
+    <!-- Incluimos nuestro header -->
     <?php include("helpers/headerIndex.php"); ?>
     <main class="py-5" style="min-height: 715px;">
         <?php
