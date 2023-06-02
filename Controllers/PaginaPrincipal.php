@@ -1,4 +1,5 @@
 <?php
+//AUTOR: JEAN PIER CARRASCO
 //le damos un nombre de espacio
 namespace Controllers;
 //requerimos los modelos

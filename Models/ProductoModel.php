@@ -1,4 +1,5 @@
 <?php
+//AUTOR: JEAN PIER CARRASCO
 //Establecemos el nombre de espacio donde se trabaja
 namespace Models;
 //Requerimos la conexion
