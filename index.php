@@ -16,6 +16,7 @@ $router->add("/intranet/administrador/marcas", "Controllers\Administrador\Marcas
 $router->add("/intranet/inicio", "Controllers\Login@inicioIntranet");
 $router->add("/usuario/cerrar-sesion", "Controllers\Login@cerrarSesion");
 $router->add("/carrito/compras", "Controllers\Cliente\Compras@indexCarritoCompras");
+$router->add("/correo", "Controllers\Correo@configurarCorreo");
 
 $router->run();
 ?>

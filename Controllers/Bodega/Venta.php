@@ -7,13 +7,14 @@ require_once $_SERVER['DOCUMENT_ROOT'] . '/Models/ProductoModel.php';
 require_once $_SERVER['DOCUMENT_ROOT'] . '/Models/UsuarioModel.php';
 require_once $_SERVER['DOCUMENT_ROOT'] . '/Models/ClientesModel.php';
 require_once $_SERVER['DOCUMENT_ROOT'] . '/Models/VentasModel.php';
-
+require_once $_SERVER['DOCUMENT_ROOT'] . '/Controllers/Correo.php';
 
 //Usamos las clases y lo renombramos
 use Models\Producto as ProductoModel;
 use Models\Clientes;
 use Models\Usuario as UsuarioModel;
 use Models\Ventas as VentasModel;
+use Controllers\Correo;
 
 
 //Definimos la clase Producto
@@ -136,6 +137,7 @@ class Venta {
     //Definimos el método para agregar un producto
     public function agregarVentasBodega(array $datos)
     {
+        //VEMOS SI EL USUARIO AUN SIGUE AUTENTICADO
         $usuarioModel = new UsuarioModel();
         $data = $usuarioModel->obtenerDatosAutenticado();
         if (empty($data)) {
@@ -144,11 +146,22 @@ class Venta {
         if (!in_array($data['rol'], [$usuarioModel->rolBodega])) {
             return ['session' => 'Petición no permitida'];
         }
+        $clientes = new Clientes();
+        //Pasamos el parametro del cliente para que nos otorge su informacion
+        $clientes->setId($datos['cliente']);
+        //Llamamos al metodo para obtener los datos del cliente
+        $cliente = $clientes->obtenerClientes();
+        if(!isset($cliente[0])){
+            return ['error' => 'Cliente no encontrado'];
+        }
+        //OBTENEMOS NUESTRO DETALLE DE VENTA
         $detalleVenta = json_decode($datos['detalle'],true);
         $subtotal = 0;
+        //RECORREMOS PARA CALCULAR NUESTRO SUBTOTAL
         foreach ($detalleVenta as $dv) {
             $subtotal += floatval($dv['sub_total']);
         }
+        //DEFINIMOS LAS VARIABLES PARA NUESTRA VENTA
         $igv = floatval(0.18 * $subtotal);
         $total = floatval($subtotal + floatval($datos['envio']));
         $ventaModel = new VentasModel();
@@ -164,6 +177,28 @@ class Venta {
         $ventaModel->setIgv($igv);
         $ventaModel->setDetalleVentas(json_encode($detalleVenta));
         $resultado = $ventaModel->agregarVenta();
+        //SI TOTO ESTA OK SE ENVIA EL CORREO
+        if($resultado){
+            //SE DEFINE LA ZONA HORARIA
+            date_default_timezone_set('America/Bogota');
+            //OBTENEMOS EL ENVIO
+            $envio = $datos['envio'];
+            //OBTENEMOS LA DIRECCION
+            $direccion = $datos['direccion'];
+            //ALMACENAMOS EL DETALLE PARA QUE SEA RECORRIDO EN NUESTRO PHP DEL CORREO
+            $productos = $detalleVenta;
+            //DIFINIMOS EL NOMBRE COMPLETO DEL CLIENTE
+            $nombreCompleto = $cliente[0]['nombres'] . ' ' . $cliente[0]['apellidos'];
+            //OBTENEMOS EL PHP EN TEXTO DEL CORREO
+            ob_start();
+            include_once $_SERVER['DOCUMENT_ROOT'] . '/Views/Cliente/correoCompra.php';
+            //LO ALMACENAMOS EN UNA BARIABLE
+            $contenido_html = ob_get_clean();
+            //INSTANCIAMOS EL CORREO
+            $correo = new Correo;
+            //ENVIAMOS EL CORREO AL DESTINATARIO CON LOS CAMPOS NECESARIOS
+            $correo->enviarCorreoCompra('COMPROBANTE DE COMPRA - BODEGAFAST',$cliente[0]['correo'],$nombreCompleto,$contenido_html,'¡Gracias por comprar en BODEGAFAST!');
+        }
         return !$resultado ? ['error' => 'Error al agregar una venta'] : ['success' => 'Venta generada con éxito'];
     }
 }

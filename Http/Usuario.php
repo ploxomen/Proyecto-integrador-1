@@ -9,7 +9,7 @@ switch ($_POST['accion']) {
         echo json_encode($response, JSON_FORCE_OBJECT);
     break;
     case 'crear-cuenta':
-        $response = $cLogin->crearCuenta($_POST['correo'], $_POST['contrasena'],$_POST['nombres'], $_POST['apellidos'], "","");
+        $response = $cLogin->crearCuenta($_POST['correo'], $_POST['contrasena'],$_POST['nombres'], $_POST['apellidos'], $_POST['celular'],$_POST['direccion']);
         echo json_encode($response, JSON_FORCE_OBJECT);
     break;
 }

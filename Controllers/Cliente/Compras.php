@@ -3,9 +3,12 @@ namespace Controllers\Cliente;
 require_once $_SERVER['DOCUMENT_ROOT'] . '/Models/ProductoModel.php';
 require_once $_SERVER['DOCUMENT_ROOT'] . '/Models/UsuarioModel.php';
 require_once $_SERVER['DOCUMENT_ROOT'] . '/Models/VentasModel.php';
+require_once $_SERVER['DOCUMENT_ROOT'] . '/Controllers/Correo.php';
+
 use Models\Usuario as ModelUsuario;
 use Models\Producto as ModelProducto;
 use Models\Ventas as VentasModel;
+use Controllers\Correo;
 
 class Compras{
 
@@ -226,22 +229,30 @@ class Compras{
     }
     public function agregarCompraCliente(array $datos)
     {
+        //OBTENEMOS EL CARRITO DE COMPRAS
         $detalleVenta = isset($_COOKIE['carrito_compras']) ? json_decode($_COOKIE['carrito_compras'],true) : [];
         $subtotal = 0;
+        //OBTENEMOS EL MODELO DEL PRODUCTO
         $modeloProducto = new ModelProducto;
+        //FILTRAMOS LOS PRODUCTOS
         $idProductos = implode(",",array_column($detalleVenta,"idProducto"));
+        //OBTENEMOS LOS DATOS DE LA DB PARA COMPRAR
         $productos = $modeloProducto->verProductosClientesCarrito($idProductos);
+        //RECORREMOS PARA FILTRAR
         foreach ($productos as $kp => $vp) {
+            //FILTRAMOS EL ARREGLO
             $filtroCarrito = array_filter($detalleVenta,function($valCarrito)use($vp){
                 return $valCarrito['idProducto'] == $vp['id'];
             });
             if(empty($filtroCarrito)){
                 continue;
             }
+            //DEFINIMOS LA CANTIDAD Y EL SUBTOTAL
             $productos[$kp]['cantidad'] = $detalleVenta[key($filtroCarrito)]['cantidad'];
             $productos[$kp]['sub_total'] = $detalleVenta[key($filtroCarrito)]['cantidad'] * $vp['precio_venta'];
             $subtotal += $productos[$kp]['sub_total'];
         }
+        //VEMOS SI EL USUARIO AUN SIGUE AUTENTICADO
         $usuarioModel = new ModelUsuario();
         $data = $usuarioModel->obtenerDatosAutenticado();
         if (empty($data)) {
@@ -250,8 +261,10 @@ class Compras{
         if (!in_array($data['rol'], [$usuarioModel->rolUsuario])) {
             return ['session' => 'Petición no permitida'];
         }
+        //DEFINIMOS LAS VARIABLES PARA NUESTRA COMPRA
         $igv = floatval(0.18 * $subtotal);
-        $total = floatval($subtotal + floatval($datos['envio']));
+        $envio = floatval($datos['envio']);
+        $total = floatval($subtotal + $envio);
         $ventaModel = new VentasModel();
         $ventaModel->setIdCliente($data['idAccesoRol']);
         $ventaModel->setDireccion($datos['direccion']);
@@ -265,6 +278,23 @@ class Compras{
         $ventaModel->setIgv($igv);
         $ventaModel->setDetalleVentas(json_encode($productos));
         $resultado = $ventaModel->agregarVenta();
+        //SI TOTO ESTA OK SE ENVIA EL CORREO
+        if($resultado){
+            //SE DEFINE LA ZONA HORARIA
+            date_default_timezone_set('America/Bogota');
+            $direccion = $datos['direccion'];
+            $nombreCompleto = $data['nombres'] . ' ' . $data['apellidos'];
+            //OBTENEMOS EL PHP EN TEXTO DEL CORREO
+            ob_start();
+            include_once $_SERVER['DOCUMENT_ROOT'] . '/Views/Cliente/correoCompra.php';
+            //LO ALMACENAMOS EN UNA BARIABLE
+            $contenido_html = ob_get_clean();
+            //INSTANCIAMOS EL CORREO
+            $correo = new Correo;
+            //ENVIAMOS EL CORREO AL DESTINATARIO CON LOS CAMPOS NECESARIOS
+            $correo->enviarCorreoCompra('COMPROBANTE DE COMPRA - BODEGAFAST',$data['correo'],$nombreCompleto,$contenido_html,'¡Gracias por comprar en BODEGAFAST!');
+        }
+        //RETORNAMOS EL RESULTADO
         return !$resultado ? ['error' => 'Error al agregar una venta'] : ['success' => 'Venta generada con éxito'];
     }
 }

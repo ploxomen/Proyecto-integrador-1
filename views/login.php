@@ -57,23 +57,30 @@
                                                 <button class="btn btn-secondary btn-lg btn-block" type="submit"><i class="fa-solid fa-arrow-right-to-bracket"></i> Ingresar</button>
                                             </div>
                                         </form>
-                                        <form id="frmRegistro" hidden>
-                                            <div class="form-outline mb-2">
-                                                <label class="form-label" for="correoRegistro"><i class="fa-solid fa-envelope"></i> Correo</label>
-                                                <input type="email" name="correo" id="correoRegistro" class="form-control" required />
-                                            </div>
-
-                                            <div class="form-outline mb-2">
-                                                <label class="form-label" for="contrasenaRegistro"><i class="fa-solid fa-lock"></i> Contraseña</label>
-                                                <input type="password" name="contrasena" id="contrasenaRegistro" class="form-control" required />
-                                            </div>
-                                            <div class="form-outline mb-2">
+                                        <form id="frmRegistro" class="row" hidden>
+                                            <div class="col-12 col-lg-6 mb-2">
                                                 <label class="form-label" for="nombresRegistro"><i class="fa-solid fa-user"></i> Nombres</label>
-                                                <input type="text" name="nombres" id="nombresRegistro" class="form-control" required />
+                                                <input type="text" name="nombres" id="nombresRegistro" class="form-control form-control-sm" required />
                                             </div>
-                                            <div class="form-outline mb-2">
+                                            <div class="col-12 col-lg-6 mb-2">
                                                 <label class="form-label" for="apellidosRegistro"><i class="fa-solid fa-user-tie"></i> Apellidos</label>
-                                                <input type="text" name="apellidos" id="apellidosRegistro" class="form-control" required />
+                                                <input type="text" name="apellidos" id="apellidosRegistro" class="form-control form-control-sm" required />
+                                            </div>
+                                            <div class="col-12 mb-2">
+                                                <label class="form-label" for="correoRegistro"><i class="fa-solid fa-envelope"></i> Correo</label>
+                                                <input type="email" name="correo" id="correoRegistro" class="form-control form-control-sm" required />
+                                            </div>
+                                            <div class="col-12 col-lg-6 mb-2">
+                                                <label class="form-label" for="contrasenaRegistro"><i class="fa-solid fa-lock"></i> Contraseña</label>
+                                                <input type="password" name="contrasena" id="contrasenaRegistro" class="form-control form-control-sm" required />
+                                            </div>
+                                            <div class="col-12 col-lg-6 mb-2">
+                                                <label class="form-label" for="correoRegistro"><i class="fas fa-mobile-alt"></i> Celular</label>
+                                                <input type="tel" name="celular" id="correoRegistro" class="form-control form-control-sm" />
+                                            </div>
+                                            <div class="col-12 mb-2">
+                                                <label class="form-label" for="correoRegistro"><i class="fas fa-street-view"></i> Dirección</label>
+                                                <input type="text" name="direccion" id="correoRegistro" class="form-control form-control-sm" />
                                             </div>
                                             <div class="pt-1 mb-2 text-center">
                                                 <button class="btn btn-secondary btn-lg btn-block" type="submit"><i class="fa-regular fa-floppy-disk"></i> Registrase</button>
