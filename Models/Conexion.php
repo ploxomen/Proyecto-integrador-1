@@ -5,7 +5,7 @@ class Conexion{
     private string $port = "3307";
     private string $db = "bodegafast";
     private string $user = "root";
-    private string $password = "12345";
+    private string $password = "root123";
 
     public function conectar()
     {

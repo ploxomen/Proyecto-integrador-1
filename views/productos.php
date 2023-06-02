@@ -14,12 +14,12 @@
     <?php include("helpers/headerIndex.php"); ?>
     <main class="contenedor-productos">
         <h2 class="text-center titulo-principal-modulo my-4">!ENCUENTRA TUS PRODUCTOS AQUI!</h2>
-        <div class="container d-flex" style="gap:30px">
-            <section class="filtros">
+        <div class="container d-lg-flex" style="gap:30px">
+            <section class="filtros" style="width: 500px;">
                 <form id="filtosBusqueda" class="mb-5">
                     <div class="categorias my-4">
                         <h5 class="titulo-principal-modulo">Categorías</h5>
-                        <div class="card" style="width: 18rem;">
+                        <div class="card">
                             <ul class="list-group list-group-flush">
                                 <!-- Recorremos las categorias -->
                                 <?php
@@ -44,7 +44,7 @@
                     </div>
                     <div class="marcas my-4">
                         <h5 class="titulo-principal-modulo">Marcas</h5>
-                        <div class="card" style="width: 18rem;">
+                        <div class="card">
                             <ul class="list-group list-group-flush">
                                 <!-- Recorremos las marcas -->
                                 <?php

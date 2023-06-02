@@ -1,6 +1,6 @@
 function loadPage(){
     const url = window.location.origin + "/Http/Cliente/Compras.php";
-    let envio = 10;
+    const envio = 10;
     const contenidoCarrito = document.querySelector("#contenidoCarrito");
     const btnCarritoCompras = document.querySelector("#btnCarritoCompras");
     contenidoCarrito.onclick = async function(e){
@@ -49,6 +49,7 @@ function loadPage(){
         datos.append("accion","modificar-carrito");
         datos.append("producto",e.target.dataset.producto);
         datos.append("cantidad",cantidad);
+        datos.append("nombre",e.target.dataset.nombre);
         try {
             const response = await helper.peticionHttp(url,"POST",datos);
             if(response.total){
@@ -67,7 +68,7 @@ function loadPage(){
     const boxTercero = document.querySelector("#seccion3");
     const boxPasos = document.querySelectorAll(".paso"); 
 
-    document.querySelector("#btnSiguientePrimero").onclick = function(e){
+    document.querySelector("#btnSiguientePrimero").onclick = async function(e){
         e.preventDefault();
         let mensajeError = null;
         for (const txtCantidad of document.querySelectorAll(".change-valor-cantidad")) {
@@ -86,13 +87,24 @@ function loadPage(){
         }
         if(mensajeError){
             return helper.alertaToast("error",mensajeError);
-
         }
-        boxPrimero.hidden = true;
-        boxSegundo.hidden = false;
-        boxPasos[0].querySelector(".regla").style.width = "102px";
-        boxPasos[1].style.backgroundColor = "var(--color-principal)";
-        boxPasos[1].style.color = "#fff";
+        try {
+            let datos = new FormData();
+            datos.append("accion","verificar-productos");
+            const response = await helper.peticionHttp(url,"POST",datos);
+            if(response.error){
+                return helper.sweetAlert("error",null,response.error);
+            }else if(response.success){
+                boxPrimero.hidden = true;
+                boxSegundo.hidden = false;
+                boxPasos[0].querySelector(".regla").style.width = "102px";
+                boxPasos[1].style.backgroundColor = "var(--color-principal)";
+                boxPasos[1].style.color = "#fff";
+            }
+        } catch (error) {
+            console.error(error);
+            helper.alertaToast("error","Error al consultar producto");
+        }
     }
     document.querySelector("#btnAtrasSegundo").onclick = function(e){
         e.preventDefault();
@@ -109,10 +121,15 @@ function loadPage(){
         boxPasos[2].style.backgroundColor = "";
         boxPasos[2].style.color = "";
     }
+    const formDatos = document.querySelector("#frmDatos");
     document.querySelector("#btnSiguienteFinalizar").onclick = async e => {
-        let datos = new FormData();
-        datos.append("accion","eliminar-total-carrito");
+        let datos = new FormData(formDatos);
+        datos.append("accion","generar-compra");
+        datos.append("envio",envio);
         const response = await helper.peticionHttp(url,"POST",datos);
+        if(response.error){
+            return helper.alertaToast("error",response.error);
+        }
         if(response.success){
             const response2 = await helper.sweetAlert("success",null,"!Gracias por comprar en BODEGAFAST! tu pedido está en camino");
             if(response2.isConfirmed || !response2.isConfirmed){
@@ -126,7 +143,6 @@ function loadPage(){
     document.querySelector("#btnSiguienteSegundo").onclick = async function (e) {
         e.preventDefault();
         try {
-           
             let datos = new FormData();
             datos.append("accion","verificar-autenticacion");
             const response = await helper.peticionHttp(url,"POST",datos);

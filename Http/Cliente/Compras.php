@@ -14,11 +14,11 @@ switch ($_POST['accion']) {
         echo json_encode($response);
     break;
     case 'agregar-carrito':
-        $response = $cCompras->agregarCarrito($_POST['producto'],$_POST['cantidad']);
+        $response = $cCompras->agregarCarrito($_POST['producto'],$_POST['cantidad'],$_POST['nombre']);
         echo json_encode($response);
     break;
     case 'modificar-carrito':
-        $response = $cCompras->modificarCarritoCantidad($_POST['producto'],$_POST['cantidad']);
+        $response = $cCompras->modificarCarritoCantidad($_POST['producto'],$_POST['cantidad'],$_POST['nombre']);
         echo json_encode($response);
     break;
     case 'eliminar-producto-carrito':
@@ -32,6 +32,20 @@ switch ($_POST['accion']) {
     case 'verificar-autenticacion':
         $response = $cCompras->verificarAutenticacionCompra();
         echo json_encode($response);
+    break;
+    case 'verificar-productos':
+        $response = $cCompras->verificarCompra();
+        echo json_encode($response);
+    break;
+    case 'generar-compra':
+        
+        $response = $cCompras->agregarCompraCliente($_POST);
+        $resultado = ['error' => 'Error al generar la compra'];
+        if(isset($response['success'])){
+            $cCompras->aliminarTotalCarrito();
+            $resultado = ['success' => 'Comprar generada con éxito'];
+        }
+        echo json_encode($resultado);
     break;
 }
 

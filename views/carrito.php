@@ -75,7 +75,7 @@
                                             echo "<td>".$pv['bodega']."</td>"; 
                                             echo "<td>".$pv['nombre']."</td>"; 
                                             echo "<td>S/ ".$pv['precio_venta']."</td>"; 
-                                            echo "<td><input type='number' min='1' max='25' class='form-control form-control-sm change-valor-cantidad' data-producto='".$pv['id']."' value='".$pv['cantidad']."'></td>"; 
+                                            echo "<td><input type='number' min='1' max='25' class='form-control form-control-sm change-valor-cantidad' data-producto='".$pv['id']."' data-nombre='".$pv['nombre']."' value='".$pv['cantidad']."'></td>"; 
                                             echo "<td><span class='sub-total-tabla'>S/ ".number_format(floatval($pv['subtotal']),2)."</span></td>"; 
                                             echo "<td><button class='btn btn-sm btn-danger' data-producto='".$pv['id']."'><i class='fas fa-trash-alt'></i></button></td></tr>"; 
                                         }
@@ -113,14 +113,14 @@
                             <h3 class="text-center titulo-principal-modulo">Datos personales</h3>
                         </div>
                         <div class="mb-3">
-                            <form class="row">
+                            <form class="row" id="frmDatos">
                                 <div class="mb-2 col-12 col-md-6">
                                     <label for="txtNombres">Nombres</label>
-                                    <input type="text" name="nombres" id="txtNombres" class="form-control form-control-lg" disabled value="<?php echo isset($data['nombres']) ? $data['nombres'] : '' ?>">
+                                    <input type="text" id="txtNombres" class="form-control form-control-lg" disabled value="<?php echo isset($data['nombres']) ? $data['nombres'] : '' ?>">
                                 </div>
                                 <div class="mb-2 col-12 col-md-6">
                                     <label for="txtApellidos">Apellidos</label>
-                                    <input type="text" name="apellidos" id="txtApellidos" class="form-control form-control-lg" disabled value="<?php echo isset($data['apellidos']) ? $data['apellidos'] : '' ?>">
+                                    <input type="text" id="txtApellidos" class="form-control form-control-lg" disabled value="<?php echo isset($data['apellidos']) ? $data['apellidos'] : '' ?>">
                                 </div>
                                 <div class="mb-2 col-12">
                                     <label for="txtDireccion">Dirección de envío</label>
@@ -155,10 +155,10 @@
                                 <strong id="cantidadFinal"><?php echo number_format(floatval($total + 10),2)?></strong>
                             </div>
                             <div class="form-check my-3">
-                            <input class="form-check-input" type="radio" name="flexRadioDisabled" id="flexRadioCheckedDisabled" checked disabled>
-                            <label class="form-check-label" for="flexRadioCheckedDisabled">
-                                Pago contra entrega
-                            </label>
+                                <input class="form-check-input" type="radio" name="flexRadioDisabled" id="flexRadioCheckedDisabled" checked disabled>
+                                <label class="form-check-label" for="flexRadioCheckedDisabled">
+                                    Pago contra entrega
+                                </label>
                             </div>
                         </form>
                         <div class="d-flex justify-content-between">

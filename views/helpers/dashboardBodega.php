@@ -55,6 +55,18 @@
                   <span>Mis Productos</span>
               </a>
           </li>
+          <li class="<?php echo $_SERVER['REQUEST_URI'] == '/intranet/bodega/agregar-venta' ? 'activo' : '' ?>">
+              <a href="/intranet/bodega/agregar-venta">
+                  <i class="fa-solid fa-shop"></i>
+                  <span>Generar Venta</span>
+              </a>
+          </li>
+          <li class="<?php echo $_SERVER['REQUEST_URI'] == '/intranet/bodega/mis-ventas' ? 'activo' : '' ?>">
+              <a href="/intranet/bodega/mis-ventas">
+                  <i class="fa-solid fa-tags"></i>
+                  <span>Mis Ventas</span>
+              </a>
+          </li>
           <li>
               <a class="cerrar-sesion" href="javascript:void(0)">
                   <i class="fa-solid fa-arrow-right-from-bracket"></i>

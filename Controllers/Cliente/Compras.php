@@ -2,20 +2,22 @@
 namespace Controllers\Cliente;
 require_once $_SERVER['DOCUMENT_ROOT'] . '/Models/ProductoModel.php';
 require_once $_SERVER['DOCUMENT_ROOT'] . '/Models/UsuarioModel.php';
+require_once $_SERVER['DOCUMENT_ROOT'] . '/Models/VentasModel.php';
 use Models\Usuario as ModelUsuario;
 use Models\Producto as ModelProducto;
+use Models\Ventas as VentasModel;
 
 class Compras{
 
-    public function agregarCarrito(int $idProducto, int $cantidad)
+    public function agregarCarrito(int $idProducto, int $cantidad, string $nombre)
     {
-        
         $cookieCarrito = isset($_COOKIE['carrito_compras']) ? json_decode($_COOKIE['carrito_compras'],true) : null;
         if(is_null($cookieCarrito)){
             $cookieCarrito = [
                 [
                     'idProducto' => $idProducto,
-                    'cantidad' => $cantidad
+                    'cantidad' => $cantidad,
+                    'nombre' => $nombre
                 ]
             ];
             setcookie("carrito_compras",json_encode($cookieCarrito),time() + 604800,'/');
@@ -32,7 +34,8 @@ class Compras{
         if(!$existeCarrito){
             $cookieCarrito[] = [
                 'idProducto' => $idProducto,
-                'cantidad' => $cantidad
+                'cantidad' => $cantidad,
+                'nombre' => $nombre
             ];
         }
         unset($_COOKIE['carrito_compras']);
@@ -132,14 +135,15 @@ class Compras{
         }
         return ['producto' => count($nuevoCarrito),'total' => number_format(floatval($total),2)];
     }
-    public function modificarCarritoCantidad(int $idProducto,int $cantidad)
+    public function modificarCarritoCantidad(int $idProducto,int $cantidad, string $nombre)
     {
         $cookieCarrito = isset($_COOKIE['carrito_compras']) ? json_decode($_COOKIE['carrito_compras'],true) : [];
         if(is_null($cookieCarrito)){
             $cookieCarrito = [
                 [
                     'idProducto' => $idProducto,
-                    'cantidad' => $cantidad
+                    'cantidad' => $cantidad,
+                    'nombre' => $nombre
                 ]
             ];
             setcookie("carrito_compras",json_encode($cookieCarrito),time() + 604800,'/');
@@ -156,7 +160,8 @@ class Compras{
         if(!$existeCarrito){
             $cookieCarrito[] = [
                 'idProducto' => $idProducto,
-                'cantidad' => $cantidad
+                'cantidad' => $cantidad,
+                'nombre' => $nombre
             ];
         }
         unset($_COOKIE['carrito_compras']);
@@ -178,7 +183,6 @@ class Compras{
             if(empty($filtroCarrito)){
                 continue;
             }
-            
             $productos[$kp]['cantidad'] = $cookieCarrito[key($filtroCarrito)]['cantidad'];
             $productos[$kp]['subtotal'] = $cookieCarrito[key($filtroCarrito)]['cantidad'] * $vp['precio_venta'];
             if($cookieCarrito[key($filtroCarrito)]['idProducto'] == $idProducto){
@@ -196,6 +200,72 @@ class Compras{
             return ['success' => 'Se canceló el proceso de compra...'];
         }
         return ['error' => 'No se encontró el carrito de compras'];
+    }
+    public function verificarCompra()
+    {
+        $cookieCarrito = isset($_COOKIE['carrito_compras']) ? json_decode($_COOKIE['carrito_compras'],true) : [];
+        $producto = new ModelProducto();
+        $idProductos = implode(",",array_column($cookieCarrito,"idProducto"));
+        $productosDb = $producto->verProductosClientesCarrito($idProductos);
+        $response = ['success' => 'no hay inconvenientes'];
+        foreach ($cookieCarrito as $pc) {
+            $producto = array_filter($productosDb,function($v)use($pc){
+                return $v['id'] == $pc['idProducto'];
+            });
+            if(empty($producto)){
+                $response = ['error' => 'El producto ' . $pc['nombre'] . ' no se a encontrado, posiblemente haya sido eliminado'];
+                break;
+            }
+            $kp = key($producto);
+            if(intval($pc['cantidad']) > intval($productosDb[$kp]['stock'])){
+                $response = ['error' => 'El producto ' . $pc['nombre'] . ' no debe superar la cantidad de ' . intval($productosDb[$kp]['stock']) . ' unidades'];
+                break;
+            }
+        }
+        return $response;
+    }
+    public function agregarCompraCliente(array $datos)
+    {
+        $detalleVenta = isset($_COOKIE['carrito_compras']) ? json_decode($_COOKIE['carrito_compras'],true) : [];
+        $subtotal = 0;
+        $modeloProducto = new ModelProducto;
+        $idProductos = implode(",",array_column($detalleVenta,"idProducto"));
+        $productos = $modeloProducto->verProductosClientesCarrito($idProductos);
+        foreach ($productos as $kp => $vp) {
+            $filtroCarrito = array_filter($detalleVenta,function($valCarrito)use($vp){
+                return $valCarrito['idProducto'] == $vp['id'];
+            });
+            if(empty($filtroCarrito)){
+                continue;
+            }
+            $productos[$kp]['cantidad'] = $detalleVenta[key($filtroCarrito)]['cantidad'];
+            $productos[$kp]['sub_total'] = $detalleVenta[key($filtroCarrito)]['cantidad'] * $vp['precio_venta'];
+            $subtotal += $productos[$kp]['sub_total'];
+        }
+        $usuarioModel = new ModelUsuario();
+        $data = $usuarioModel->obtenerDatosAutenticado();
+        if (empty($data)) {
+            return ['session' => 'Usuario no autenticado'];
+        }
+        if (!in_array($data['rol'], [$usuarioModel->rolUsuario])) {
+            return ['session' => 'Petición no permitida'];
+        }
+        $igv = floatval(0.18 * $subtotal);
+        $total = floatval($subtotal + floatval($datos['envio']));
+        $ventaModel = new VentasModel();
+        $ventaModel->setIdCliente($data['idAccesoRol']);
+        $ventaModel->setDireccion($datos['direccion']);
+        $ventaModel->setCelular($datos['celular']);
+        $ventaModel->setMetodoEnvio("DELIVERY");
+        $ventaModel->setMetodoPago("EFECTIVO");
+        $ventaModel->setResponsableVenta("CLIENTE");
+        $ventaModel->setEnvio($datos['envio']);
+        $ventaModel->setSubtotal($subtotal);
+        $ventaModel->setTotal($total);
+        $ventaModel->setIgv($igv);
+        $ventaModel->setDetalleVentas(json_encode($productos));
+        $resultado = $ventaModel->agregarVenta();
+        return !$resultado ? ['error' => 'Error al agregar una venta'] : ['success' => 'Venta generada con éxito'];
     }
 }
 ?>

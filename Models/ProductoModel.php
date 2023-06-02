@@ -134,6 +134,32 @@ class Producto extends Conexion{
         $stmt->close();
         return $result;
     }
+    public function verProductosBodega()
+    {
+        $cn = $this->conectar();
+        $stmt = $cn->prepare("CALL SP_R_T_PRODUCTOS_BODEGA(?,?)");
+        $stmt->bind_param("ii",$this->idBodega,$this->id);
+        $stmt->execute();
+        $rs = $stmt->get_result();
+        $result = [];
+        while ($result[] = $rs->fetch_assoc());
+        array_pop($result);
+        $stmt->close();
+        return $result;
+    }
+    public function verificarProductosStock(string $productos)
+    {
+        $cn = $this->conectar();
+        $stmt = $cn->prepare("CALL SP_R_T_PRODUCTOS_VERIFICAR_STOCK(?,?)");
+        $stmt->bind_param("is",$this->idBodega,$productos);
+        $stmt->execute();
+        $rs = $stmt->get_result();
+        $result = [];
+        while ($result[] = $rs->fetch_assoc());
+        array_pop($result);
+        $stmt->close();
+        return $result;
+    }
     public function setId(int $idProducto)
     {
         $this->id = $idProducto;

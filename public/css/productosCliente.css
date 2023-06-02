@@ -6,7 +6,7 @@
     object-fit: contain;
 }
 .lista-productos .un-producto{
-    max-width: 280px !important;
+    width: 280px;
 }
 .lista-productos .un-producto .precio{
     font-size: 23px;

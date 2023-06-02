@@ -46,7 +46,7 @@ function loadPage(){
                     </p>
                     <div class="form-group d-flex" style="gap: 15px;">
                         <input type="number" class="form-control form-control-sm" value="1" min="0" max="25">
-                        <button class="btn btn-sm btn-agregar-carrito py-2 px-3" data-producto="${producto.id}">
+                        <button class="btn btn-sm btn-agregar-carrito py-2 px-3" data-producto="${producto.id}" data-nombre="${producto.nombre}">
                         <i></i>
                         AGREGAR
                         </button>
@@ -98,6 +98,7 @@ function loadPage(){
             }
             datos.append("accion","agregar-carrito");
             datos.append("producto",e.target.dataset.producto);
+            datos.append("nombre",e.target.dataset.nombre);
             datos.append("cantidad",cantidad);
             try {
                 const response = await helper.peticionHttp(url,"POST",datos);
