@@ -485,6 +485,355 @@ BEGIN
 END
 ;;
 delimiter ;
+-- MySQL dump 10.13  Distrib 8.0.33, for Win64 (x86_64)
+--
+-- Host: localhost    Database: bodegafast
+-- ------------------------------------------------------
+-- Server version	8.0.33
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!50503 SET NAMES utf8 */;
+/*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
+/*!40103 SET TIME_ZONE='+00:00' */;
+/*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
+/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
+/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
+/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
+
+--
+-- Table structure for table `acceso`
+--
+
+DROP TABLE IF EXISTS `acceso`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `acceso` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `correo` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_spanish_ci DEFAULT NULL,
+  `contrasena` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_spanish_ci DEFAULT NULL,
+  `token` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_spanish_ci DEFAULT NULL,
+  `estado` tinyint(1) DEFAULT '1',
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_spanish_ci ROW_FORMAT=DYNAMIC;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `acceso`
+--
+
+LOCK TABLES `acceso` WRITE;
+/*!40000 ALTER TABLE `acceso` DISABLE KEYS */;
+INSERT INTO `acceso` VALUES (1,'bodegalucero@gmail.com','$2y$10$tdrpW.jUUaVnsEcRDkkoXOlUBlTdMKBZluAA5frChR1/lxglvdmyC','',1),
+							(10,'jeanpi.jpct@gmail.com','$2y$10$.IfHkfpQFBxL8V1ak99pMeUTY6Xys/2df/nzPQFSUCDcvdwTamVzG','',1),
+                            (15,'osbaldo@gmail.com','$2y$10$tdrpW.jUUaVnsEcRDkkoXOlUBlTdMKBZluAA5frChR1/lxglvdmyC','',1),
+                            (20,'asdsadadssa@sac.com','$2y$10$irH7vW12JBuq/5FV17R3QezPCUofFTvuGFBzV7s7n5TPnG5JBybma','',1),
+                            (21,'aaa@gmail.com','$2y$10$Um0IajFhJs4cZcYIhINH8e52.hiB9eDIjXc9y3klm1LsnpDCPr30i','39b66aceeef553b18bee7b0479c7958b773c252f653f1da1413e78c9f106e824e72f5a85aa',1),
+                            (22,'DiegoM@gmail.com','$2y$10$7oJmJofxzu49J6T6BRL2vObqJI1cG72/KfG5gW90HzzmKvyEaMXbW','8d1ebda06acdef8d7c60d221a999696cbbe1a2cfaedec5dcde5a3599cfe6b5077af8cc2b59',1);
+/*!40000 ALTER TABLE `acceso` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `administrativos`
+--
+
+DROP TABLE IF EXISTS `administrativos`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `administrativos` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `id_acceso` int DEFAULT NULL,
+  `nombres` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_spanish_ci DEFAULT NULL,
+  `apellidos` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_spanish_ci DEFAULT NULL,
+  `celular` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_spanish_ci DEFAULT NULL,
+  `telefono` int DEFAULT NULL,
+  PRIMARY KEY (`id`) USING BTREE,
+  KEY `id_acceso` (`id_acceso`) USING BTREE,
+  CONSTRAINT `administrativos_ibfk_1` FOREIGN KEY (`id_acceso`) REFERENCES `acceso` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_spanish_ci ROW_FORMAT=DYNAMIC;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `administrativos`
+--
+
+LOCK TABLES `administrativos` WRITE;
+/*!40000 ALTER TABLE `administrativos` DISABLE KEYS */;
+INSERT INTO `administrativos` VALUES (1,10,'Jean Pier','Carrasco Tamariz',NULL,NULL);
+/*!40000 ALTER TABLE `administrativos` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `bodegas`
+--
+
+DROP TABLE IF EXISTS `bodegas`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `bodegas` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `id_acceso` int DEFAULT NULL,
+  `ruc` varchar(20) CHARACTER SET utf8mb3 COLLATE utf8mb3_spanish_ci DEFAULT NULL,
+  `nombre` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_spanish_ci DEFAULT NULL,
+  `direccion` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_spanish_ci DEFAULT NULL,
+  `telefono` varchar(10) CHARACTER SET utf8mb3 COLLATE utf8mb3_spanish_ci DEFAULT NULL,
+  `celular` varchar(15) CHARACTER SET utf8mb3 COLLATE utf8mb3_spanish_ci DEFAULT NULL,
+  `localizacion` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_spanish_ci DEFAULT NULL,
+  `dni_propietario` varchar(8) CHARACTER SET utf8mb3 COLLATE utf8mb3_spanish_ci DEFAULT NULL,
+  `nombre_propietario` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_spanish_ci DEFAULT NULL,
+  `estado` tinyint(1) DEFAULT '1',
+  PRIMARY KEY (`id`) USING BTREE,
+  KEY `id_acceso` (`id_acceso`) USING BTREE,
+  CONSTRAINT `bodegas_ibfk_1` FOREIGN KEY (`id_acceso`) REFERENCES `acceso` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_spanish_ci ROW_FORMAT=DYNAMIC;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `bodegas`
+--
+
+LOCK TABLES `bodegas` WRITE;
+/*!40000 ALTER TABLE `bodegas` DISABLE KEYS */;
+INSERT INTO `bodegas` VALUES (1,1,'20145151256','BODEGA LUCERO',NULL,NULL,NULL,NULL,NULL,NULL,1);
+/*!40000 ALTER TABLE `bodegas` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `categorias`
+--
+
+DROP TABLE IF EXISTS `categorias`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `categorias` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `nombre` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_spanish_ci DEFAULT NULL,
+  `estado` tinyint(1) DEFAULT '1',
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_spanish_ci ROW_FORMAT=DYNAMIC;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `categorias`
+--
+
+LOCK TABLES `categorias` WRITE;
+/*!40000 ALTER TABLE `categorias` DISABLE KEYS */;
+INSERT INTO `categorias` VALUES (1,'Bebidas',1),(2,'Golosinas',1),(3,'Abarrotes',1),(4,'Limpieza',1),(5,'Carnes y pescados',1),(6,'Lácteos',1),(7,'Aseo personal',1);
+/*!40000 ALTER TABLE `categorias` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `marcas`
+--
+
+DROP TABLE IF EXISTS `marcas`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `marcas` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `nombre` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_spanish_ci DEFAULT NULL,
+  `estado` tinyint(1) DEFAULT '1',
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_spanish_ci ROW_FORMAT=DYNAMIC;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `marcas`
+--
+
+LOCK TABLES `marcas` WRITE;
+/*!40000 ALTER TABLE `marcas` DISABLE KEYS */;
+INSERT INTO `marcas` VALUES (1,'Coca Cola',1),(2,'Gloria',1),(3,'Laive',0),(4,'Nesstle',1),(5,'asdasd',0),(6,'Bimbo',1),(7,'',0),(8,'Ajinomoto',1),(9,'Colgate',1),(10,'Inka cola',1),(11,'Big Cola',1);
+/*!40000 ALTER TABLE `marcas` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `productos`
+--
+
+DROP TABLE IF EXISTS `productos`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `productos` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `id_bodega` int DEFAULT NULL,
+  `id_marca` int DEFAULT NULL,
+  `nombre` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_spanish_ci DEFAULT NULL,
+  `descripcion` varchar(500) CHARACTER SET utf8mb3 COLLATE utf8mb3_spanish_ci DEFAULT NULL,
+  `stock` decimal(11,2) DEFAULT NULL,
+  `stock_minimo` decimal(11,2) DEFAULT NULL,
+  `precio_compra` decimal(11,2) DEFAULT NULL,
+  `precio_venta` decimal(11,2) DEFAULT NULL,
+  `descuento` decimal(11,2) DEFAULT NULL,
+  `img` varchar(500) CHARACTER SET utf8mb3 COLLATE utf8mb3_spanish_ci DEFAULT NULL,
+  `estado` tinyint(1) DEFAULT '1',
+  PRIMARY KEY (`id`) USING BTREE,
+  KEY `id_marca` (`id_marca`) USING BTREE,
+  KEY `id_bodega` (`id_bodega`) USING BTREE,
+  CONSTRAINT `productos_ibfk_1` FOREIGN KEY (`id_marca`) REFERENCES `marcas` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
+  CONSTRAINT `productos_ibfk_2` FOREIGN KEY (`id_bodega`) REFERENCES `bodegas` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
+) ENGINE=InnoDB AUTO_INCREMENT=62 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_spanish_ci ROW_FORMAT=DYNAMIC;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `productos`
+--
+
+LOCK TABLES `productos` WRITE;
+/*!40000 ALTER TABLE `productos` DISABLE KEYS */;
+INSERT INTO `productos` VALUES (44,1,2,'Leche Gloria Azul de 400g','Leche gloria de etiqueta azul de 400 gramos',10.00,0.00,3.50,4.20,0.00,'1684294698_leche_gloria.jpg',1),
+								(45,1,2,'Leche Gloria Azul de 170g','Leche gloria azul de 170 gramos con abre fácil',10.00,0.00,1.50,2.20,0.00,'1684294779_leche_gloria_chica.jpg',1),
+                                (46,1,4,'Café Instantáneo Nescafé Tradición Frasco 170g','',5.00,0.00,11.50,15.00,0.00,'1684295057_Mesa-de-trabajo-21-3.jpg',1),
+                                (47,1,4,'zzz','z',5.00,0.00,11.50,6.00,0.00,'1684295057_Mesa-de-trabajo-21-3.jpg',0),
+                                (48,1,2,'Yogurt ','',100.00,10.00,3.50,3.90,0.00,'1684722119_Yogurt Gloria.jpg',0),
+                                (49,1,2,'Atun ','',50.00,5.00,4.00,4.50,0.00,'1684722166_Atun Gloria.jpg',0),
+                                (50,1,2,'Atun Gloria','',50.00,5.00,4.00,4.50,0.00,'1684722316_Atun Gloria.jpg',1),
+                                (51,1,4,'Leche condensada 185g','',20.00,5.00,5.00,5.20,0.00,'1684722522_Leche condensada Nestle.png',1),
+                                (52,1,4,'Sublime 30g','',100.00,5.00,0.80,1.00,0.00,'1684722730_Sublime.jpeg',1),
+                                (53,1,10,'Inca Kola 1.5L','',50.00,10.00,5.50,6.00,0.00,'1684722860_Inca Kola.jpg',1),
+                                (54,1,11,'Big Cola 3L','',100.00,5.00,6.80,7.00,0.00,'1684725886_big-cola 3L.png',0),
+                                (55,1,11,'Big Cola 3L','',100.00,5.00,7.90,8.00,0.00,'1684726207_big-cola 3L.png',1),
+                                (56,1,9,'Colgate Triple Accion 150ml','',100.00,2.00,3.90,4.50,0.00,'1684726256_Colgate Triple Accion.jpg',1),
+                                (57,1,9,'Colgate Luminus White 150ml','',50.00,10.00,6.20,6.70,0.00,'1684726298_Colgate Luminus White.jpg',1),
+                                (58,1,4,'Lentejas Nestle  16g','',100.00,5.00,0.90,1.00,0.00,'1684726344_lentejasss-16g.jpg',1),
+                                (59,1,4,'Morochas 240g','',50.00,3.00,0.80,1.20,0.00,'1684726405_morochas-240g.jpg',1),
+                                (60,1,6,'Pan Bimbo 480g','',20.00,10.00,5.50,6.00,0.00,'1684726461_Pan Bimbo 480g.jpeg',1),
+                                (61,1,6,'Paneton Bimbo 900g','',50.00,5.00,20.00,25.00,0.00,'1684726503_Paneton Bimbo 900g.png',1);
+/*!40000 ALTER TABLE `productos` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `productos_categorias`
+--
+
+DROP TABLE IF EXISTS `productos_categorias`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `productos_categorias` (
+  `id_producto` int DEFAULT NULL,
+  `id_categoria` int DEFAULT NULL,
+  KEY `id_producto` (`id_producto`) USING BTREE,
+  KEY `id_categoria` (`id_categoria`) USING BTREE,
+  CONSTRAINT `productos_categorias_ibfk_1` FOREIGN KEY (`id_producto`) REFERENCES `productos` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
+  CONSTRAINT `productos_categorias_ibfk_2` FOREIGN KEY (`id_categoria`) REFERENCES `categorias` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_spanish_ci ROW_FORMAT=DYNAMIC;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `productos_categorias`
+--
+
+LOCK TABLES `productos_categorias` WRITE;
+/*!40000 ALTER TABLE `productos_categorias` DISABLE KEYS */;
+INSERT INTO `productos_categorias` VALUES (44,6),(45,6),(46,3),(47,3),(48,6),(49,5),(50,5),(51,6),(52,2),(53,1),(54,1),(55,1),(56,7),(57,7),(58,2),(59,2),(60,3),(61,3);
+/*!40000 ALTER TABLE `productos_categorias` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `usuarios`
+--
+
+DROP TABLE IF EXISTS `usuarios`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `usuarios` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `id_acceso` int DEFAULT NULL,
+  `nombres` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_spanish_ci DEFAULT NULL,
+  `apellidos` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_spanish_ci DEFAULT NULL,
+  `celular` varchar(20) CHARACTER SET utf8mb3 COLLATE utf8mb3_spanish_ci DEFAULT NULL,
+  `direccion` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_spanish_ci DEFAULT NULL,
+  PRIMARY KEY (`id`) USING BTREE,
+  KEY `id_acceso` (`id_acceso`) USING BTREE,
+  CONSTRAINT `usuarios_ibfk_1` FOREIGN KEY (`id_acceso`) REFERENCES `acceso` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_spanish_ci ROW_FORMAT=DYNAMIC;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `usuarios`
+--
+
+LOCK TABLES `usuarios` WRITE;
+/*!40000 ALTER TABLE `usuarios` DISABLE KEYS */;
+INSERT INTO `usuarios` VALUES (1,15,'Osbaldo','Laurencio',NULL,NULL),
+								(3,20,'sad','asd','',''),
+								(4,21,'jean pier','carra','',''),
+                                (5,22,'Diego','Márquez','','');
+/*!40000 ALTER TABLE `usuarios` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `ventas`
+--
+
+DROP TABLE IF EXISTS `ventas`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `ventas` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `id_usuarios` int DEFAULT NULL,
+  `direccion` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_spanish_ci DEFAULT NULL,
+  `celular` varchar(20) CHARACTER SET utf8mb3 COLLATE utf8mb3_spanish_ci DEFAULT NULL,
+  `metodo_envio` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_spanish_ci DEFAULT NULL,
+  `metodo_pago` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_spanish_ci DEFAULT NULL,
+  `cliente_bodega` varchar(10) CHARACTER SET utf8mb3 COLLATE utf8mb3_spanish_ci DEFAULT NULL,
+  `subtotal` decimal(10,2) DEFAULT NULL,
+  `envio` decimal(10,2) DEFAULT NULL,
+  `total` decimal(10,2) DEFAULT NULL,
+  `estado` tinyint(1) DEFAULT NULL,
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_spanish_ci ROW_FORMAT=DYNAMIC;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `ventas`
+--
+
+LOCK TABLES `ventas` WRITE;
+/*!40000 ALTER TABLE `ventas` DISABLE KEYS */;
+/*!40000 ALTER TABLE `ventas` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `ventas_detalle`
+--
+
+DROP TABLE IF EXISTS `ventas_detalle`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `ventas_detalle` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `id_venta` int DEFAULT NULL,
+  `id_producto` int DEFAULT NULL,
+  `precio_venta` decimal(10,2) DEFAULT NULL,
+  `cantidad` int DEFAULT NULL,
+  `subtotal` decimal(10,2) DEFAULT NULL,
+  `estado` tinyint(1) DEFAULT NULL,
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_spanish_ci ROW_FORMAT=DYNAMIC;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `ventas_detalle`
+--
+
+LOCK TABLES `ventas_detalle` WRITE;
+/*!40000 ALTER TABLE `ventas_detalle` DISABLE KEYS */;
+/*!40000 ALTER TABLE `ventas_detalle` ENABLE KEYS */;
+UNLOCK TABLES;
+/*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
+
+/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
+/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
+/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
+
+-- Dump completed on 2023-06-02  0:51:37
 
 -- ----------------------------
 -- Procedure structure for SP_R_T_CATEGORIAS_PRODUCTOS
