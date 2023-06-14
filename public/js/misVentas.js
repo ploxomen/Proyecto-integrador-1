@@ -1,5 +1,8 @@
 function loadPage() {
     let helper = new Helper();
+    const txtFechaFin = document.querySelector("#txtFechaFin");
+    const txtFechaInicio = document.querySelector("#txtFechaInicio");
+
     const configVentas = {
         ...helper.configuracionDataTable,
         "ajax": {
@@ -7,11 +10,16 @@ function loadPage() {
             "method" : "POST",
             "data": function ( d ) {
                 d.accion = 'ver-ventas';
+                d.ffin = txtFechaFin.value;
+                d.finicio = txtFechaInicio.value;
             }
         },
         columns: [
             {
                 data: 'nroVenta'
+            },
+            {
+                data: 'fecha'
             },
             {
                 data: 'nombresCliente'
@@ -66,6 +74,17 @@ function loadPage() {
         ]
     }
     const datatableVentas = $('#misVentas').DataTable(configVentas);
+    document.querySelector("#btnAplicarFiltro").onclick = e => datatableVentas.ajax.reload();
+    document.querySelector("#btnReporteDetalle").onclick = function(e){
+        // e.preventDefault();
+        // const link = document.createElement("form");
+
+        // link.href = window.location.origin + "/intranet/bodega/reporte-ventas?fechaInicio=" + txtFechaInicio.value + "&fechaFin="+txtFechaFin.value;
+        // link.target = "_blank";
+        // document.body.append(link);
+        // link.click();
+        // link.remove();
+    }
 
 }
 window.addEventListener("DOMContentLoaded",loadPage);

@@ -20,7 +20,7 @@ switch ($_POST['accion']) {
         echo json_encode($response, JSON_FORCE_OBJECT);
     break;
     case 'ver-ventas':
-        $response = $cVentas->obtenerDatosVentasBodega();
+        $response = $cVentas->obtenerDatosVentasBodega($_POST['finicio'],$_POST['ffin']);
         echo json_encode($response);
     break;
     case 'eliminar-venta':

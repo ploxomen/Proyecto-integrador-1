@@ -13,6 +13,41 @@
     <?php require_once($_SERVER['DOCUMENT_ROOT'] . "/Views/helpers/dashboardBodega.php") ?>
     <main class="contenido-pagina">
         <h3 class="text-center titulo-principal-modulo mb-4">Mis ventas</h3>
+        <div class="contenido-tabla bg-white p-3 mb-4">
+            <div class="py-3">
+                <h4 class="titulo-principal-modulo"><i class="fa-solid fa-caret-right"></i> Filtros</h4>
+            </div>
+            <form id="filtros" class="row" action="./../../intranet/bodega/reporte-ventas" method="POST">
+                <div class="col-12 col-md-6 col-lg-3">
+                    <label for="txtFechaInicio">Fecha Inicio</label>
+                    <input type="date" name="fechaInicio" id="txtFechaInicio" class="form-control form-control-sm" value="<?php echo date("Y-m-d",strtotime(date('Y-m-d')."- 30 days"))?>">
+                </div>
+                <div class="col-12 col-md-6 col-lg-3">
+                    <label for="txtFechaFin">Fecha Fin</label>
+                    <input type="date" name="fechaFin" id="txtFechaFin" class="form-control form-control-sm" value="<?php echo date('Y-m-d')?>">
+                </div>
+                <div class="col-12 col-lg-3">
+                    <div class="d-flex" style="gap:5px;">
+                        <button class="btn btn-sm btn-primary" id="btnAplicarFiltro" type="button" title="Aplicar filtros">
+                            <i class="fas fa-filter"></i>
+                        </button>
+                        <div class="dropdown">
+                            <button class="btn btn-sm btn-login-access dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                <span class="nombre-usuario">Reportes</span>
+                            </button>
+                            <ul class="dropdown-menu">
+                                <li>
+                                    <button type="submit" class="dropdown-item text-secondary" id="btnReporteDetalle">
+                                        <i class="far fa-file-pdf text-danger"></i>
+                                        Detalle de venta
+                                    </button>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
         <div class="contenido-tabla bg-white p-3">
             <div class="py-3">
                 <h4 class="titulo-principal-modulo"><i class="fa-solid fa-caret-right"></i> Lista de ventas</h4>
@@ -21,6 +56,7 @@
                 <thead>
                     <tr>
                         <th>N° Venta</th>
+                        <th>Fecha</th>
                         <th>Cliente</th>
                         <th>Celular</th>
                         <th>Dirección</th>

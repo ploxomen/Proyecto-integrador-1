@@ -8,6 +8,7 @@ require_once $_SERVER['DOCUMENT_ROOT'] . '/Models/UsuarioModel.php';
 require_once $_SERVER['DOCUMENT_ROOT'] . '/Models/ClientesModel.php';
 require_once $_SERVER['DOCUMENT_ROOT'] . '/Models/VentasModel.php';
 require_once $_SERVER['DOCUMENT_ROOT'] . '/Controllers/Correo.php';
+require $_SERVER['DOCUMENT_ROOT'] . '/vendor/autoload.php';
 
 //Usamos las clases y lo renombramos
 use Models\Producto as ProductoModel;
@@ -15,6 +16,7 @@ use Models\Clientes;
 use Models\Usuario as UsuarioModel;
 use Models\Ventas as VentasModel;
 use Controllers\Correo;
+use Dompdf\Dompdf;
 
 
 //Definimos la clase Producto
@@ -62,7 +64,7 @@ class Venta {
         }
         require_once("views/Bodega/misVentas.php");
     }
-    public function obtenerDatosVentasBodega()
+    public function obtenerDatosVentasBodega(string $fechaInicio,string $fechaFin)
     {
         $usuarioModel = new UsuarioModel();
         $data = $usuarioModel->obtenerDatosAutenticado();
@@ -75,7 +77,7 @@ class Venta {
             die();
         }
         $ventaModel = new VentasModel();
-        return ['data' => $ventaModel->verVentasPorBodega($data['idAccesoRol'])];
+        return ['data' => $ventaModel->verVentasPorBodega($data['idAccesoRol'],$fechaInicio,$fechaFin)];
     }
     //Definimos el método el cual retornara los datos del cliente
     public function verInformacionCliente(int $idCliente)
@@ -200,6 +202,34 @@ class Venta {
             $correo->enviarCorreoCompra('COMPROBANTE DE COMPRA - BODEGAFAST',$cliente[0]['correo'],$nombreCompleto,$contenido_html,'¡Gracias por comprar en BODEGAFAST!');
         }
         return !$resultado ? ['error' => 'Error al agregar una venta'] : ['success' => 'Venta generada con éxito'];
+    }
+    public function reporteVenta(){
+        $usuarioModel = new UsuarioModel();
+        $data = $usuarioModel->obtenerDatosAutenticado();
+        if (empty($data)) {
+            header("location: /login");
+            die();
+        }
+        if (!in_array($data['rol'], [$usuarioModel->rolBodega])) {
+            header("location: /intranet/inicio");
+            die();
+        }
+        $ventaModel = new VentasModel();
+        $dompdf = new Dompdf();
+        $fechaInicio = $_POST['fechaInicio'];
+        $fechaFin = $_POST['fechaFin'];
+        $ventas = $ventaModel->verVentasPorBodega($data['idAccesoRol'],$fechaInicio,$fechaFin);
+        foreach ($ventas as $k=>$venta) {
+            $ventaModel->setId($venta['id']);
+            $ventas[$k]['productos'] = $ventaModel->verDetalleVentas();
+        }
+        ob_start();
+        include_once $_SERVER['DOCUMENT_ROOT'] . '/Views/Bodega/reportes/detalleVenta.php';
+        $html = ob_get_clean();
+        $dompdf->loadHtml($html);
+        $dompdf->setPaper('A4', 'landscape');
+        $dompdf->render();
+        $dompdf->stream("reporte_ventas.pdf",array("Attachment" => false));
     }
 }
 ?>
