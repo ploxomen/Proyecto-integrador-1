@@ -67,6 +67,12 @@
                   <span>Mis Ventas</span>
               </a>
           </li>
+          <li class="<?php echo $_SERVER['REQUEST_URI'] == '/intranet/bodega/producto/historial' ? 'activo' : '' ?>">
+              <a href="/intranet/bodega/producto/historial">
+                  <i class="fa-solid fa-tags"></i>
+                  <span>Historial Producto</span>
+              </a>
+          </li>
           <li>
               <a class="cerrar-sesion" href="javascript:void(0)">
                   <i class="fa-solid fa-arrow-right-from-bracket"></i>

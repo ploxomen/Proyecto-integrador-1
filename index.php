@@ -7,6 +7,9 @@ $router->add("/", "Controllers\PaginaPrincipal@indexHome");
 $router->add("/listar/productos", "Controllers\PaginaPrincipal@indexVerProductos");
 $router->add("/login", "Controllers\Login@indexLogin");
 $router->add("/intranet/bodega/agregar-producto", "Controllers\Bodega\Producto@indexAdminProducto");
+$router->add("/intranet/bodega/producto/historial", "Controllers\Bodega\Producto@indexHistorialProducto");
+$router->add("/intranet/bodega/producto/histoarial", "Controllers\Bodega\Producto@indexHistorialProducto");
+
 $router->add("/intranet/bodega/agregar-venta", "Controllers\Bodega\Venta@indexBodegaAgregarVenta");
 $router->add("/intranet/bodega/reporte-ventas", "Controllers\Bodega\Venta@reporteVenta");
 $router->add("/intranet/bodega/mis-productos", "Controllers\Bodega\Producto@indexAdminMisProductos");

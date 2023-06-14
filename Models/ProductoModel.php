@@ -62,6 +62,18 @@ class Producto extends Conexion{
         //Retornamos los datos
         return $result;
     }
+    public function obtenerHistorialProducto() {
+        $cn = $this->conectar();
+        $stmt = $cn->prepare("CALL SP_R_T_PRODUCTOS_HISTORIAL(?,?)");
+        $stmt->bind_param("ii",$this->id,$this->idBodega);
+        $stmt->execute();
+        $rs = $stmt->get_result();
+        $result = [];
+        while ($result[] = $rs->fetch_assoc());
+        array_pop($result);
+        $stmt->close();
+        return $result;
+    }
     //Definimos su método eliminar
     public function eliminar()
     {
@@ -160,6 +172,23 @@ class Producto extends Conexion{
         array_pop($result);
         $stmt->close();
         return $result;
+    }
+    public function actualizarHistorial()
+    {
+        //Obtenemos la conexión
+        $cn = $this->conectar();
+        //Llamamos a nuestro SP
+        $stmt = $cn->prepare("CALL SP_C_T_PRODUCTOS_HISTORIAL(?,?,?,?)");
+        //Establecemos los parametros
+        $stmt->bind_param("iddd",$this->id, $this->stock,$this->descuento, $this->precioVenta);
+        //Ejecutamos nuestro SP
+        $stmt->execute();
+        //Definimos si nos a dado error
+        $response = $stmt->error == '' ? ['success' => 'Producto actualizado correctamente'] : ['error' => 'El producto no se actualizó'];
+        //Cerremos la consulta
+        $stmt->close();
+        //Retornamos la variable de respuesta
+        return $response;
     }
     public function setId(int $idProducto)
     {

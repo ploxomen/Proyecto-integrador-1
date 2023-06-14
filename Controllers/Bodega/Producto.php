@@ -189,6 +189,71 @@ class Producto {
         $producto = isset($datos['nombreProducto']) ? $datos['nombreProducto'] : '';
         return ['productos' => $modelProducto->verProductosClientes($producto,$categorias,$marcas,$ordenar)];
     }
+    public function indexHistorialProducto(){
+        $usuarioModel = new UsuarioModel();
+        $data = $usuarioModel->obtenerDatosAutenticado();
+        if (empty($data)) {
+            header("location: /login");
+            die();
+        }
+        if (!in_array($data['rol'], [$usuarioModel->rolBodega])) {
+            header("location: /intranet/inicio");
+            die();
+        }
+        $producto = new ProductoModel();
+        $producto->setIdBodega($data['idAccesoRol']);
+        $producto->setId(0);
+        //listamos los productos por bodega
+        $listaProductos = $producto->verProductosBodega();
+        require_once("views/Bodega/historialStockPrecio.php");
+    }
+    public function obtenerProductoInformacion(int $productoId){
+        $usuarioModel = new UsuarioModel();
+        $data = $usuarioModel->obtenerDatosAutenticado();
+        if (empty($data)) {
+            return ['session' => true];
+        }
+        if (!in_array($data['rol'], [$usuarioModel->rolBodega])) {
+            return ['session' => true];
+        }
+        $producto = new ProductoModel();
+        $producto->setIdBodega($data['idAccesoRol']);
+        $producto->setId($productoId);
+        //listamos los productos por bodega
+        $listaProductos = $producto->verProductosBodega();
+        return ['producto' => $listaProductos];
+    }
+    public function editarStockProductoHistorial(int $productoId,float $precio, float $cantidad, float $descuento){
+        $usuarioModel = new UsuarioModel();
+        $data = $usuarioModel->obtenerDatosAutenticado();
+        if (empty($data)) {
+            return ['session' => true];
+        }
+        if (!in_array($data['rol'], [$usuarioModel->rolBodega])) {
+            return ['session' => true];
+        }
+        $producto = new ProductoModel();
+        $producto->setId($productoId);
+        $producto->setStock($cantidad);
+        $producto->setPrecioVenta($precio);
+        $producto->setDescuento($descuento);
+        //listamos los productos por bodega
+        return $producto->actualizarHistorial();
+    }
+    public function listaHistorialProducto(int $productoId) {
+        $usuarioModel = new UsuarioModel();
+        $data = $usuarioModel->obtenerDatosAutenticado();
+        if (empty($data)) {
+            return ['session' => true];
+        }
+        if (!in_array($data['rol'], [$usuarioModel->rolBodega])) {
+            return ['session' => true];
+        }
+        $producto = new ProductoModel();
+        $producto->setId($productoId);
+        $producto->setIdBodega($data['idAccesoRol']);
+        return ['data' => $producto->obtenerHistorialProducto()];
+    }
 }
 
 ?>
