@@ -1,6 +1,8 @@
 <?php
 use Controllers\Bodega\Producto;
 use Controllers\Cliente\Compras;
+require_once $_SERVER['DOCUMENT_ROOT'] . '/vendor/autoload.php';
+include_once $_SERVER['DOCUMENT_ROOT'] . '/vendor/culqi/culqi-php/lib/culqi.php';
 
 require_once '../../Controllers/Bodega/Producto.php';
 require_once '../../Controllers/Cliente/Compras.php';
@@ -38,7 +40,6 @@ switch ($_POST['accion']) {
         echo json_encode($response);
     break;
     case 'generar-compra':
-        
         $response = $cCompras->agregarCompraCliente($_POST);
         $resultado = ['error' => 'Error al generar la compra'];
         if(isset($response['success'])){

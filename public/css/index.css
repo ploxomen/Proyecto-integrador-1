@@ -91,3 +91,33 @@ button > *{
     pointer-events: none !important;
     user-select: none !important;
 }
+
+.cargar-general{
+    position: fixed;
+    left: 0;
+    top: 0;
+    right: 0;
+    height: 100vh;
+    background: rgba(11, 11, 11, 0.598);
+    display: grid;
+    place-items: center;
+    z-index: 999999;
+}
+.loader-baner {
+    width: 48px;
+    height: 48px;
+    border: 5px solid #FFF;
+    border-bottom-color: var(--color-principal);
+    border-radius: 50%;
+    display: inline-block;
+    box-sizing: border-box;
+    animation: rotation 1s linear infinite;
+}
+@keyframes rotation {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}

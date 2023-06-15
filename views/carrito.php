@@ -6,6 +6,7 @@
     <?php include("helpers/header.php") ?>
     <link rel="stylesheet" href="./../../public/css/agregarProducto.css">
     <link rel="stylesheet" href="./../public/css/carritoCompras.css">
+    <script src="https://checkout.culqi.com/js/v4"></script>
     <script src="./../public/js/carritoCompras.js"></script>
     <title>Carrito de compras</title>
 </head>
@@ -154,12 +155,6 @@
                                 <b>Total a pagar: S/ </b>
                                 <strong id="cantidadFinal"><?php echo number_format(floatval($total + 10),2)?></strong>
                             </div>
-                            <div class="form-check my-3">
-                                <input class="form-check-input" type="radio" name="flexRadioDisabled" id="flexRadioCheckedDisabled" checked disabled>
-                                <label class="form-check-label" for="flexRadioCheckedDisabled">
-                                    Pago contra entrega
-                                </label>
-                            </div>
                         </form>
                         <div class="d-flex justify-content-between">
                             <button class="btn btn-danger" id="btnAtrasTercero"><i class="fa-regular fa-hand-point-left"></i> Atras</button>
@@ -173,8 +168,48 @@
         }
         ?>
     </main>
+    <div class="cargar-general" id="banerCargando" hidden>
+        <span class="loader-baner"></span>
+    </div>
     <?php include("helpers/footerIndex.php"); ?>
-
+    <script>
+        function culqi() {
+            $.ajax({
+            url: window.location.origin + "/Http/Cliente/Compras.php",
+            type : "POST",
+            dataType : "JSON",
+            beforeSend : function(){
+                document.querySelector("#banerCargando").hidden = false;
+            },
+            data : {
+                token : Culqi.token.id,
+                email : Culqi.token.email,
+                accion : 'generar-compra',
+                tipo : Culqi.token.type.toUpperCase(),
+                direccion : document.querySelector("#txtDireccion").value,
+                celular : document.querySelector("#txtCelular").value
+            }
+            }).done(function(response) {
+                Culqi.close();
+                if(response.success){
+                    Swal.fire({
+                        icon: 'success',
+                        text : response.success,
+                        showCancelButton: false,
+                        confirmButtonText: "Aceptar",
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            window.location.reload();
+                        }
+                    });
+                }
+            }).fail(error => {
+                console.log(error);
+            }).always( a => {
+                document.querySelector("#banerCargando").hidden = true;
+            })
+        }
+    </script>
 </body>
 
 </html>

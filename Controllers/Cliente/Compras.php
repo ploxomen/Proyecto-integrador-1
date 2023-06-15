@@ -1,9 +1,12 @@
 <?php
+
 namespace Controllers\Cliente;
+require_once $_SERVER['DOCUMENT_ROOT'] . '/vendor/autoload.php';
 require_once $_SERVER['DOCUMENT_ROOT'] . '/Models/ProductoModel.php';
 require_once $_SERVER['DOCUMENT_ROOT'] . '/Models/UsuarioModel.php';
 require_once $_SERVER['DOCUMENT_ROOT'] . '/Models/VentasModel.php';
 require_once $_SERVER['DOCUMENT_ROOT'] . '/Controllers/Correo.php';
+include_once $_SERVER['DOCUMENT_ROOT'] . '/vendor/culqi/culqi-php/lib/culqi.php';
 
 use Models\Usuario as ModelUsuario;
 use Models\Producto as ModelProducto;
@@ -11,7 +14,7 @@ use Models\Ventas as VentasModel;
 use Controllers\Correo;
 
 class Compras{
-
+    private $SECRET_KEY = "sk_test_tNzIoYbCp0MtHpbA";
     public function agregarCarrito(int $idProducto, int $cantidad, string $nombre)
     {
         $cookieCarrito = isset($_COOKIE['carrito_compras']) ? json_decode($_COOKIE['carrito_compras'],true) : null;
@@ -48,15 +51,53 @@ class Compras{
     }
     public function verificarAutenticacionCompra()
     {
-        $tokenBodegafast = isset($_COOKIE['token_bodegafast']) ? $_COOKIE['token_bodegafast'] : null;
+        error_reporting(0);
+        $tokenBodegafast = isset($_COOKIE['token_bodegafast']) ? json_decode($_COOKIE['carrito_compras'],true) : [];
         $response = ['token' => false,'rol' => null,'nombres' => null, 'apellidos' => null];
         if(!empty($tokenBodegafast)){
+            $total = 0;
             $response['token'] = true;
             $usuarioModel = new ModelUsuario();
             $data = $usuarioModel->obtenerDatosAutenticado();
             $response['rol'] = $data['rol'];
             $response['nombres'] = $data['nombres'];
             $response['apellidos'] = $data['apellidos'];
+            $idProductos = "";
+            foreach ($tokenBodegafast as $key => $value) {
+                $idProductos .= $value['idProducto'];
+                $idProductos .= ($key + 1) != count($tokenBodegafast) ? "," : "";
+            }
+            $modeloProducto = new ModelProducto;
+            $productos = $modeloProducto->verProductosClientesCarrito($idProductos);
+            foreach ($productos as $kp => $vp) {
+                $filtroCarrito = array_filter($tokenBodegafast,function($valCarrito)use($vp){
+                    return $valCarrito['idProducto'] == $vp['id'];
+                });
+                if(empty($filtroCarrito)){
+                    continue;
+                }
+                $productos[$kp]['cantidad'] = $tokenBodegafast[key($filtroCarrito)]['cantidad'];
+                $productos[$kp]['subtotal'] = $tokenBodegafast[key($filtroCarrito)]['cantidad'] * $vp['precio_venta'];
+                $total += $productos[$kp]['subtotal'];
+            }
+            $response['total'] = $total;
+            $culqi = new \Culqi\Culqi(array('api_key' => $this->SECRET_KEY));
+            $order = $culqi->Orders->create(
+                array(
+                  "amount" => ($total + 10) * 100,
+                  "currency_code" => "PEN",
+                  "description" => 'Venta BODEGAFAST',        
+                  "order_number" => uniqid(),
+                  "client_details" => array( 
+                      "first_name"=> $data['nombres'], 
+                      "last_name" => $data['apellidos'],
+                      "email" => $data['correo'], 
+                      "phone_number" => $data['celular']
+                   ),
+                  "expiration_date" => time() + 24*60*60   // Orden con un dia de validez
+                )
+          );
+          $response['orden'] = $order;
         }
         return $response;
     }
@@ -229,6 +270,7 @@ class Compras{
     }
     public function agregarCompraCliente(array $datos)
     {
+        error_reporting(0);
         //OBTENEMOS EL CARRITO DE COMPRAS
         $detalleVenta = isset($_COOKIE['carrito_compras']) ? json_decode($_COOKIE['carrito_compras'],true) : [];
         $subtotal = 0;
@@ -263,16 +305,28 @@ class Compras{
         }
         //DEFINIMOS LAS VARIABLES PARA NUESTRA COMPRA
         $igv = floatval(0.18 * $subtotal);
-        $envio = floatval($datos['envio']);
+        $envio = 10;
         $total = floatval($subtotal + $envio);
+        $culqi = new \Culqi\Culqi(array('api_key' => $this->SECRET_KEY));
+        $charge = $culqi->Charges->create(
+            array(
+              "amount" => ($total * 100),
+              "capture" => true,
+              "currency_code" => "PEN",
+              "description" => "Compra BODEGAFAST",
+              "email" => $datos['email'],
+              "installments" => 0,
+              "source_id" => $datos['token']
+            )
+        );
         $ventaModel = new VentasModel();
         $ventaModel->setIdCliente($data['idAccesoRol']);
         $ventaModel->setDireccion($datos['direccion']);
         $ventaModel->setCelular($datos['celular']);
         $ventaModel->setMetodoEnvio("DELIVERY");
-        $ventaModel->setMetodoPago("EFECTIVO");
+        $ventaModel->setMetodoPago($datos['tipo']);
         $ventaModel->setResponsableVenta("CLIENTE");
-        $ventaModel->setEnvio($datos['envio']);
+        $ventaModel->setEnvio($envio);
         $ventaModel->setSubtotal($subtotal);
         $ventaModel->setTotal($total);
         $ventaModel->setIgv($igv);

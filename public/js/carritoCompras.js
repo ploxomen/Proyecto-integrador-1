@@ -1,5 +1,24 @@
 function loadPage(){
     const url = window.location.origin + "/Http/Cliente/Compras.php";
+    Culqi.publicKey = 'pk_test_5363217173e180bb';
+    Culqi.options({
+        lang: "auto",
+        installments: false,
+        paymentMethods: {
+            tarjeta: true,
+            bancaMovil: true,
+            agente: true,
+            billetera: true,
+            cuotealo: true,
+            yape: true
+        },
+        style: {
+            bannerColor: '#F8B602',
+            menuColor: '#F8B602',
+            linksColor: '#F8B602'
+        }
+    });
+    let paymentTypeAvailable = null;
     const envio = 10;
     const contenidoCarrito = document.querySelector("#contenidoCarrito");
     const btnCarritoCompras = document.querySelector("#btnCarritoCompras");
@@ -121,24 +140,11 @@ function loadPage(){
         boxPasos[2].style.backgroundColor = "";
         boxPasos[2].style.color = "";
     }
+    
     const formDatos = document.querySelector("#frmDatos");
     document.querySelector("#btnSiguienteFinalizar").onclick = async e => {
-        let datos = new FormData(formDatos);
-        datos.append("accion","generar-compra");
-        datos.append("envio",envio);
-        const response = await helper.peticionHttp(url,"POST",datos);
-        if(response.error){
-            return helper.alertaToast("error",response.error);
-        }
-        if(response.success){
-            const response2 = await helper.sweetAlert("success",null,"!Gracias por comprar en BODEGAFAST! tu pedido está en camino");
-            if(response2.isConfirmed || !response2.isConfirmed){
-                window.location.reload();
-            }
-        }
-        if(response.error){
-            helper.alertaToast("error",response.error);
-        }
+        Culqi.open();
+        e.preventDefault();
     }
     document.querySelector("#btnSiguienteSegundo").onclick = async function (e) {
         e.preventDefault();
@@ -160,12 +166,19 @@ function loadPage(){
                 if(document.querySelector("#txtCelular").value == ""){
                     return helper.sweetAlert("error","Sesión","Por favor complete el número de celular");
                 }
-                
                 boxSegundo.hidden = true;
                 boxTercero.hidden = false;
                 boxPasos[1].querySelector(".regla").style.width = "102px";
                 boxPasos[2].style.backgroundColor = "var(--color-principal)";
                 boxPasos[2].style.color = "#fff";
+                Culqi.settings({
+                    title: 'BODEGAFAST',
+                    currency: 'PEN',  
+                    amount: response.orden.amount,
+                    order: response.orden.id
+                });
+                Culqi.validationPaymentMethods();
+                paymentTypeAvailable = Culqi.paymentOptionsAvailable;
                 return
             }
             helper.alertaToast("error","No se puede pasar al siguiente paso");
@@ -208,6 +221,5 @@ function loadPage(){
             helper.alertaToast("error","Error al cancelar la compra");
         }
     }
-    
 }
 window.addEventListener("DOMContentLoaded",loadPage);

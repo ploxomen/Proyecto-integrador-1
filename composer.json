@@ -1,6 +1,8 @@
 {
     "require": {
         "phpmailer/phpmailer": "^6.8",
-        "dompdf/dompdf": "^2.0"
+        "dompdf/dompdf": "^2.0",
+        "culqi/culqi-php": "1.5.2",
+        "rmccue/requests": "^2.0"
     }
 }
