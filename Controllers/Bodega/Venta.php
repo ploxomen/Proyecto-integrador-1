@@ -204,30 +204,41 @@ class Venta {
         return !$resultado ? ['error' => 'Error al agregar una venta'] : ['success' => 'Venta generada con éxito'];
     }
     public function reporteVenta(){
+        //verificar la autenticacion del usuario 
         $usuarioModel = new UsuarioModel();
         $data = $usuarioModel->obtenerDatosAutenticado();
         if (empty($data)) {
+            //si no esta autenticado que le redirija al login
             header("location: /login");
             die();
         }
         if (!in_array($data['rol'], [$usuarioModel->rolBodega])) {
+            //Si no esta con el rol bodega que le mande al inicio
             header("location: /intranet/inicio");
             die();
         }
+        //se llama a las ventas
         $ventaModel = new VentasModel();
+        //se llama a la libreria del reporte
         $dompdf = new Dompdf();
         $fechaInicio = $_POST['fechaInicio'];
         $fechaFin = $_POST['fechaFin'];
+        //se obtiene las ventas
         $ventas = $ventaModel->verVentasPorBodega($data['idAccesoRol'],$fechaInicio,$fechaFin);
         foreach ($ventas as $k=>$venta) {
             $ventaModel->setId($venta['id']);
+            //se obtiene el detalle de las ventas
             $ventas[$k]['productos'] = $ventaModel->verDetalleVentas();
         }
+        //se incluye una vista html
         ob_start();
         include_once $_SERVER['DOCUMENT_ROOT'] . '/Views/Bodega/reportes/detalleVenta.php';
         $html = ob_get_clean();
+        //Obtencion de la vista
         $dompdf->loadHtml($html);
+        //definimos el papel horizontal
         $dompdf->setPaper('A4', 'landscape');
+        //renderizamos en el navegador
         $dompdf->render();
         $dompdf->stream("reporte_ventas.pdf",array("Attachment" => false));
     }

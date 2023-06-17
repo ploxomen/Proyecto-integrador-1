@@ -1,11 +1,13 @@
 <?php
 
 namespace Controllers\Cliente;
+//incluimos composer para el usuo de la libraria
 require_once $_SERVER['DOCUMENT_ROOT'] . '/vendor/autoload.php';
 require_once $_SERVER['DOCUMENT_ROOT'] . '/Models/ProductoModel.php';
 require_once $_SERVER['DOCUMENT_ROOT'] . '/Models/UsuarioModel.php';
 require_once $_SERVER['DOCUMENT_ROOT'] . '/Models/VentasModel.php';
 require_once $_SERVER['DOCUMENT_ROOT'] . '/Controllers/Correo.php';
+//incluimos la libraria de culqi para PHP
 include_once $_SERVER['DOCUMENT_ROOT'] . '/vendor/culqi/culqi-php/lib/culqi.php';
 
 use Models\Usuario as ModelUsuario;
@@ -52,21 +54,25 @@ class Compras{
     public function verificarAutenticacionCompra()
     {
         error_reporting(0);
+        //Obtenemos el carrito de compras
         $tokenBodegafast = isset($_COOKIE['token_bodegafast']) ? json_decode($_COOKIE['carrito_compras'],true) : [];
         $response = ['token' => false,'rol' => null,'nombres' => null, 'apellidos' => null];
         if(!empty($tokenBodegafast)){
             $total = 0;
             $response['token'] = true;
             $usuarioModel = new ModelUsuario();
+            //verificamos el usuario autenticado
             $data = $usuarioModel->obtenerDatosAutenticado();
             $response['rol'] = $data['rol'];
             $response['nombres'] = $data['nombres'];
             $response['apellidos'] = $data['apellidos'];
             $idProductos = "";
+            //asignamos los costos a los productos
             foreach ($tokenBodegafast as $key => $value) {
                 $idProductos .= $value['idProducto'];
                 $idProductos .= ($key + 1) != count($tokenBodegafast) ? "," : "";
             }
+            //calculamos el subtotal con el total
             $modeloProducto = new ModelProducto;
             $productos = $modeloProducto->verProductosClientesCarrito($idProductos);
             foreach ($productos as $kp => $vp) {
@@ -81,6 +87,7 @@ class Compras{
                 $total += $productos[$kp]['subtotal'];
             }
             $response['total'] = $total;
+            //generamos una orden para los metodos de pago
             $culqi = new \Culqi\Culqi(array('api_key' => $this->SECRET_KEY));
             $order = $culqi->Orders->create(
                 array(
@@ -94,7 +101,7 @@ class Compras{
                       "email" => $data['correo'], 
                       "phone_number" => $data['celular']
                    ),
-                  "expiration_date" => time() + 24*60*60   // Orden con un dia de validez
+                  "expiration_date" => time() + 24*60*60// Orden con un dia de validez
                 )
           );
           $response['orden'] = $order;
@@ -307,6 +314,7 @@ class Compras{
         $igv = floatval(0.18 * $subtotal);
         $envio = 10;
         $total = floatval($subtotal + $envio);
+        //Creamos nuestra venta en culqi
         $culqi = new \Culqi\Culqi(array('api_key' => $this->SECRET_KEY));
         $charge = $culqi->Charges->create(
             array(
