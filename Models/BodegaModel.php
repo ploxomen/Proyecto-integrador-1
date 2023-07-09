@@ -44,7 +44,18 @@ class Bodega extends Conexion
         $stmt->close();
         return $response;
     }
-    
+    public function rankingDashboard(string $fechaInicio, string $fechaFin){
+        $cn = $this->conectar();
+        $stmt = $cn->prepare("CALL SP_DASHBOARD_RANKIN_BODEGAS(?,?)");
+        $stmt->bind_param("ss", $fechaInicio, $fechaFin);
+        $stmt->execute();
+        $rs = $stmt->get_result();
+        $result = [];
+        while ($result[] = $rs->fetch_assoc());
+        array_pop($result);
+        $stmt->close();
+        return $result;
+    }
 
 
     /**

@@ -74,6 +74,30 @@ class Producto extends Conexion{
         $stmt->close();
         return $result;
     }
+    public function obtenerProductosDashboard(string $fechaInicio,string $fechaFin) {
+        $cn = $this->conectar();
+        $stmt = $cn->prepare("CALL SP_DASHBOARD_PRODUCTOS_VENDIDOS(?,?,?)");
+        $stmt->bind_param("ssi", $fechaInicio, $fechaFin,$this->idBodega);
+        $stmt->execute();
+        $rs = $stmt->get_result();
+        $result = [];
+        while ($result[] = $rs->fetch_assoc());
+        array_pop($result);
+        $stmt->close();
+        return $result;
+    }
+    public function obtenerVentasYearDashboard(string $fechaInicio,string $fechaFin) {
+        $cn = $this->conectar();
+        $stmt = $cn->prepare("CALL SP_DASHBOARD_PRODUCTOS_VENDIDOS_YEAR(?,?,?)");
+        $stmt->bind_param("ssi", $fechaInicio, $fechaFin,$this->idBodega);
+        $stmt->execute();
+        $rs = $stmt->get_result();
+        $result = [];
+        while ($result[] = $rs->fetch_assoc());
+        array_pop($result);
+        $stmt->close();
+        return $result;
+    }
     //Definimos su método eliminar
     public function eliminar()
     {

@@ -63,6 +63,8 @@ button > *{
   right: 0;
   padding: 10px 20px;
   transition: lef 0.3s ease-in-out;
+  background: #fff;
+  z-index: 2;
 }
 .cabecera nav{
   display: flex;

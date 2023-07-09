@@ -180,8 +180,7 @@ class Producto {
         return $modelProducto->actualizar();
         //Se retorna error en caso no haya imagen
     }
-    public function 
-    obtenerProductosCliente(array $datos)
+    public function obtenerProductosCliente(array $datos)
     {
         $modelProducto = new ProductoModel();
         $categorias = isset($datos['categorias']) ? implode(",",$datos['categorias']) : '';;

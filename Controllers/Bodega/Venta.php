@@ -220,7 +220,6 @@ class Venta {
         //se llama a las ventas
         $ventaModel = new VentasModel();
         //se llama a la libreria del reporte
-        $dompdf = new Dompdf();
         $fechaInicio = $_POST['fechaInicio'];
         $fechaFin = $_POST['fechaFin'];
         //se obtiene las ventas
@@ -231,16 +230,28 @@ class Venta {
             $ventas[$k]['productos'] = $ventaModel->verDetalleVentas();
         }
         //se incluye una vista html
-        ob_start();
-        include_once $_SERVER['DOCUMENT_ROOT'] . '/Views/Bodega/reportes/detalleVenta.php';
-        $html = ob_get_clean();
-        //Obtencion de la vista
-        $dompdf->loadHtml($html);
-        //definimos el papel horizontal
-        $dompdf->setPaper('A4', 'landscape');
-        //renderizamos en el navegador
-        $dompdf->render();
-        $dompdf->stream("reporte_ventas.pdf",array("Attachment" => false));
+        if($_POST['accion'] == "pdf"){
+            ob_start();
+            include_once $_SERVER['DOCUMENT_ROOT'] . '/Views/Bodega/reportes/detalleVenta.php';
+            $html = ob_get_clean();
+            $dompdf = new Dompdf();
+            //Obtencion de la vista
+            $dompdf->loadHtml($html);
+            //definimos el papel horizontal
+            $dompdf->setPaper('A4', 'landscape');
+            //renderizamos en el navegador
+            $dompdf->render();
+            $dompdf->stream("reporte_ventas.pdf",array("Attachment" => false));
+        }else{
+            header("Content-Type: application/xls"); 
+            header('Content-Type: text/html; charset=utf-8');
+            header("Content-Disposition: attachment; filename=reporte_de_ventas_" .date('Y:m:d:m:s').".xls");
+            header("Pragma: no-cache"); 
+            header("Expires: 0");
+            ob_start();
+            include_once $_SERVER['DOCUMENT_ROOT'] . '/Views/Bodega/reportes/detalleVentaExcel.php';
+            echo ob_get_clean();
+        }
     }
 }
 ?>

@@ -1,0 +1,26 @@
+@media print {
+    .modulos{
+        display: none;
+    }
+    .cabecera{
+        display: none;
+    }
+    .contenido-pagina{
+        width:100%;
+        margin-left:0;
+        height:auto;
+        margin-top:0;
+    }
+    .filtros-cabecera {
+        display: none;
+    }
+    .graficos-informes{
+        width: 100%;
+        margin-bottom: 0;
+        page-break-inside: avoid;
+    }
+    .graficos-informes .border{
+        border: none !important;
+        padding: 0 !important;
+    }
+}

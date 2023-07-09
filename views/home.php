@@ -3,6 +3,9 @@
 
 <head>
     <?php require_once($_SERVER['DOCUMENT_ROOT'] . "/Views/helpers/headerDashboard.php"); ?>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.5.0/chart.min.js" integrity="sha512-asxKqQghC1oBShyhiBwA+YgotaSYKxGP1rcSYTDrB0U6DxwlJjU59B67U8+5/++uFjcuVM8Hh5cokLjZlhm3Vg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="<?php echo $data['rol'] == 'rol_bodega' ? URL . '/Public/js/dashboardBodega.js' : URL .'/Public/js/dashboardAdministrador.js' ?>"></script>
+    <link rel="stylesheet" href="<?php echo URL . '/Public/css/printDashboard.css'?>">
     <title>Inicio</title>
 </head>
 
@@ -15,10 +18,13 @@
     }
     ?>
     <main class="contenido-pagina">
-        <section class="px-2 py-5 text-center">
-            <img src="<?= URL . '/Public/img/intranet.png' ?>" alt="Imagen de intranet" width="300px" class="py-5">
-            <h2 class="text-center">¡BIENVENIDO A LA INTRANET <b style="color:var(--color-principal)">BODEGAFAST</b>!</h2>
-        </section>
+        <?php
+            if ($data['rol'] == 'rol_bodega') {
+                require_once($_SERVER['DOCUMENT_ROOT'] . "/Views/Bodega/dashboard.php");
+            } else if ($data['rol'] == 'rol_administrador') {
+                require_once($_SERVER['DOCUMENT_ROOT'] . "/Views/Administrador/dashboard.php");
+            }
+        ?>
     </main>
 </body>
 
