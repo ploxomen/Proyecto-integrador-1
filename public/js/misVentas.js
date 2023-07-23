@@ -75,16 +75,27 @@ function loadPage() {
     }
     const datatableVentas = $('#misVentas').DataTable(configVentas);
     document.querySelector("#btnAplicarFiltro").onclick = e => datatableVentas.ajax.reload();
-    document.querySelector("#btnReporteDetalle").onclick = function(e){
-        // e.preventDefault();
-        // const link = document.createElement("form");
 
-        // link.href = window.location.origin + "/intranet/bodega/reporte-ventas?fechaInicio=" + txtFechaInicio.value + "&fechaFin="+txtFechaFin.value;
-        // link.target = "_blank";
-        // document.body.append(link);
-        // link.click();
-        // link.remove();
+    function reporte(e) {
+        const formulario = document.createElement("form");
+        formulario.innerHTML = `
+        <input value="${txtFechaFin.value}" name="fechaFin"/>
+        <input value="${txtFechaInicio.value}" name="fechaInicio"/>
+        <input value="${e.target.dataset.accion}" name="accion"/>
+        `
+        formulario.method = "POST";
+        formulario.action = window.location.origin + "/intranet/bodega/reporte-ventas";
+        const submit = document.createElement("input");
+        submit.type = "submit";
+        formulario.append(submit);
+        document.body.append(formulario);
+        submit.click();
+        document.body.removeChild(formulario);
     }
+
+
+    document.querySelector("#btnReporteDetalle").onclick = reporte;
+    document.querySelector("#btnReporteDetalleExcel").onclick = reporte;
 
 }
 window.addEventListener("DOMContentLoaded",loadPage);

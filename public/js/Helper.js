@@ -6,6 +6,8 @@ class Helper{
     urlLogin = window.location.origin + "/Http/Usuario.php"
     urlVentasBodega = window.location.origin + "/Http/Bodega/Ventas.php"
     urlAccionHistorial = window.location.origin + "/Http/Bodega/Historial.php"
+    urlDashboardBodega = window.location.origin + "/Http/Bodega/dashboard.php"
+
 
     peticionHttp(url,metodo,datos){
         return fetch(url,{

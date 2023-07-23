@@ -1,6 +1,8 @@
 function loadPage(){
     const url = window.location.origin + "/Http/Cliente/Compras.php";
+    //Llave pública que te proporciona culqi
     Culqi.publicKey = 'pk_test_5363217173e180bb';
+    //Opciones para habilitar la variedad de metodos de pago
     Culqi.options({
         lang: "auto",
         installments: false,
@@ -12,6 +14,7 @@ function loadPage(){
             cuotealo: true,
             yape: true
         },
+        //Estilos para darle color a la pasarela de pagos
         style: {
             bannerColor: '#F8B602',
             menuColor: '#F8B602',
@@ -171,12 +174,14 @@ function loadPage(){
                 boxPasos[1].querySelector(".regla").style.width = "102px";
                 boxPasos[2].style.backgroundColor = "var(--color-principal)";
                 boxPasos[2].style.color = "#fff";
+                //Recepcion de las ordenes para la asignacion del monto a pagar
                 Culqi.settings({
                     title: 'BODEGAFAST',
                     currency: 'PEN',  
                     amount: response.orden.amount,
                     order: response.orden.id
                 });
+                //Validacion de metodos de pago
                 Culqi.validationPaymentMethods();
                 paymentTypeAvailable = Culqi.paymentOptionsAvailable;
                 return

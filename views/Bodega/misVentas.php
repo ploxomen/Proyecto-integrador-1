@@ -17,7 +17,7 @@
             <div class="py-3">
                 <h4 class="titulo-principal-modulo"><i class="fa-solid fa-caret-right"></i> Filtros</h4>
             </div>
-            <form id="filtros" class="row" action="./../../intranet/bodega/reporte-ventas" method="POST">
+            <form id="filtros" class="row">
                 <div class="col-12 col-md-6 col-lg-3">
                     <label for="txtFechaInicio">Fecha Inicio</label>
                     <input type="date" name="fechaInicio" id="txtFechaInicio" class="form-control form-control-sm" value="<?php echo date("Y-m-d",strtotime(date('Y-m-d')."- 30 days"))?>">
@@ -37,9 +37,15 @@
                             </button>
                             <ul class="dropdown-menu">
                                 <li>
-                                    <button type="submit" class="dropdown-item text-secondary" id="btnReporteDetalle">
+                                    <button type="button" class="dropdown-item text-secondary" id="btnReporteDetalle" data-accion="pdf">
                                         <i class="far fa-file-pdf text-danger"></i>
-                                        Detalle de venta
+                                        PDF - Detalle de venta
+                                    </button>
+                                </li>
+                                <li>
+                                    <button type="button" class="dropdown-item text-secondary" id="btnReporteDetalleExcel" data-accion="excel">
+                                        <i class="far fa-file-excel text-success"></i>
+                                        EXCEL - Detalle de venta
                                     </button>
                                 </li>
                             </ul>

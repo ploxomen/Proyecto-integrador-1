@@ -204,32 +204,54 @@ class Venta {
         return !$resultado ? ['error' => 'Error al agregar una venta'] : ['success' => 'Venta generada con éxito'];
     }
     public function reporteVenta(){
+        //verificar la autenticacion del usuario 
         $usuarioModel = new UsuarioModel();
         $data = $usuarioModel->obtenerDatosAutenticado();
         if (empty($data)) {
+            //si no esta autenticado que le redirija al login
             header("location: /login");
             die();
         }
         if (!in_array($data['rol'], [$usuarioModel->rolBodega])) {
+            //Si no esta con el rol bodega que le mande al inicio
             header("location: /intranet/inicio");
             die();
         }
+        //se llama a las ventas
         $ventaModel = new VentasModel();
-        $dompdf = new Dompdf();
+        //se llama a la libreria del reporte
         $fechaInicio = $_POST['fechaInicio'];
         $fechaFin = $_POST['fechaFin'];
+        //se obtiene las ventas
         $ventas = $ventaModel->verVentasPorBodega($data['idAccesoRol'],$fechaInicio,$fechaFin);
         foreach ($ventas as $k=>$venta) {
             $ventaModel->setId($venta['id']);
+            //se obtiene el detalle de las ventas
             $ventas[$k]['productos'] = $ventaModel->verDetalleVentas();
         }
-        ob_start();
-        include_once $_SERVER['DOCUMENT_ROOT'] . '/Views/Bodega/reportes/detalleVenta.php';
-        $html = ob_get_clean();
-        $dompdf->loadHtml($html);
-        $dompdf->setPaper('A4', 'landscape');
-        $dompdf->render();
-        $dompdf->stream("reporte_ventas.pdf",array("Attachment" => false));
+        //se incluye una vista html
+        if($_POST['accion'] == "pdf"){
+            ob_start();
+            include_once $_SERVER['DOCUMENT_ROOT'] . '/Views/Bodega/reportes/detalleVenta.php';
+            $html = ob_get_clean();
+            $dompdf = new Dompdf();
+            //Obtencion de la vista
+            $dompdf->loadHtml($html);
+            //definimos el papel horizontal
+            $dompdf->setPaper('A4', 'landscape');
+            //renderizamos en el navegador
+            $dompdf->render();
+            $dompdf->stream("reporte_ventas.pdf",array("Attachment" => false));
+        }else{
+            header("Content-Type: application/xls"); 
+            header('Content-Type: text/html; charset=utf-8');
+            header("Content-Disposition: attachment; filename=reporte_de_ventas_" .date('Y:m:d:m:s').".xls");
+            header("Pragma: no-cache"); 
+            header("Expires: 0");
+            ob_start();
+            include_once $_SERVER['DOCUMENT_ROOT'] . '/Views/Bodega/reportes/detalleVentaExcel.php';
+            echo ob_get_clean();
+        }
     }
 }
 ?>
