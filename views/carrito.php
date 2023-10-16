@@ -61,7 +61,7 @@
                                 <thead>
                                     <tr>
                                         <th>N°</th>
-                                        <th>Bodega</th>
+                                        <th>Tienda</th>
                                         <th>Producto</th>
                                         <th>Precio</th>
                                         <th>Cantidad</th>

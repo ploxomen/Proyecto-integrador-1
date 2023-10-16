@@ -21,11 +21,11 @@
                                 <div class="col-md-6 col-lg-5 d-flex justify-content-center align-items-center">
                                     <div class="contenido text-center">
                                         <div class="py-5 px-4">
-                                            <strong>Comprar nunca fue tan fácil con <span style="color:var(--color-principal);">BodegaFast</span></strong>
+                                            <strong>Comprar nunca fue tan fácil con <span style="color:var(--color-principal);">Comprar Bliss</span></strong>
                                         </div>
                                         <img src="./../public/img/img-login.svg" alt="login form" class="img-fluid" width="300px" />
                                         <div class="py-5 px-4">
-                                            <strong>Los mejores productos de las bodegas en la puerta de tu casa</strong>
+                                            <strong>Los mejores productos de las tiendas en la puerta de tu casa</strong>
                                         </div>
                                     </div>
 

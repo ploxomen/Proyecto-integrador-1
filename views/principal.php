@@ -18,8 +18,8 @@
                         <img src="./../public/img/baner1.jpg" alt="">
                         <div class="container h-100" style="position: relative;">
                             <div class="contenido-escrito">
-                                <h3 class="titulo">BodegaFast</h3>
-                                <p>!Bienvenido a BodegaFast!<br>Aquí encontraras tus productos de primera necesidad y mucho más</p>
+                                <h3 class="titulo">Comprar Bliss</h3>
+                                <p>!Bienvenido a Comprar Bliss!<br>Aquí encontraras tus productos de primera necesidad y mucho más</p>
                             </div>
                         </div>
 
@@ -37,8 +37,8 @@
                         <img src="./../public/img/baner3.jpg" alt="">
                         <div class="container h-100" style="position: relative;">
                             <div class="contenido-escrito">
-                                <h3 class="titulo">Variedad de bodegas</h3>
-                                <p>Contamos con una gran cantidad de bodegas asociadas en Lima Norte</p>
+                                <h3 class="titulo">Variedad de tiendas</h3>
+                                <p>Contamos con una gran cantidad de tiendas asociadas en Lima Norte</p>
                             </div>
                         </div>
                     </div>
@@ -97,7 +97,13 @@
                                         <div class="py-2">
                                             <span class="titulo-producto">Milanesa</span>
                                             <span class="titulo-precio">S/ 15.00</span>
-                                            <button class="btn btn-sm btn-danger"> <i class="fa-solid fa-cart-shopping"></i> Agregar</button>
+                                            <button class="btn btn-sm btn-danger"> <a href="<?php echo URL . '/listar/productos' ?>"></a><i class="fa-solid fa-cart-shopping"></i> Productos</button>
+                                            <li class="<?php echo $_SERVER['REQUEST_URI'] == '/listar/productos' ? 'activo' : '' ?>"> 
+                                            <a href="<?php echo URL . '/listar/productos' ?>" class="btn btn-sm btn-light text-secondary"><i class="fa-solid fa-cart-shopping"></i> Productos</a>
+                                            </li>
+                                            <a href="<?php echo URL . '/login' ?>" class="btn btn-sm btn-light text-secondary">
+                            <i class='fa-solid fa-user'></i>
+                        </a>
                                         </div>
                                     </div>
                                 </div>
@@ -108,6 +114,7 @@
                                             <span class="titulo-producto">Milanesa</span>
                                             <span class="titulo-precio">S/ 15.00</span>
                                             <button class="btn btn-sm btn-danger"> <i class="fa-solid fa-cart-shopping"></i> Agregar</button>
+                                            <a href="<?php echo URL . '/listar/productos' ?>" class="btn btn-sm btn-danger"><i class="fa-solid fa-cart-shopping"></i> Productos</a>
                                         </div>
                                     </div>
                                 </div>
