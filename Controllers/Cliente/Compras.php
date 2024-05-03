@@ -53,7 +53,6 @@ class Compras{
     }
     public function verificarAutenticacionCompra()
     {
-        error_reporting(0);
         //Obtenemos el carrito de compras
         $tokenBodegafast = isset($_COOKIE['token_bodegafast']) ? json_decode($_COOKIE['carrito_compras'],true) : [];
         $response = ['token' => false,'rol' => null,'nombres' => null, 'apellidos' => null];
